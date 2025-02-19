@@ -1,5 +1,8 @@
+import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
+import org.fusesource.jansi.Ansi;
+import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
 
 public class Main {
@@ -8,12 +11,16 @@ public class Main {
         int option;
 
         do {
-            System.out.println("\n=====================|  Main Menu |===================");
-            System.out.println(" 1.  User");
-            System.out.println(" 2.  Admin");
-            System.out.println(" 0.  Exit");
-            System.out.print("Choose an option: ");
+            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ MAIN MENU ════════════════════════").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  User");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  Admin");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
+            System.out.print("Enter your choice: ");
             while (!scanner.hasNextInt()) {
                 System.out.println("Invalid input! Please enter a number.");
                 scanner.next();
@@ -42,11 +49,16 @@ public class Main {
     private static void userMenu(Scanner scanner) {
         int userOption;
         do {
-            System.out.println("\n---------------- User Menu ----------------");
-            System.out.println(" 1. Sign Up");
-            System.out.println(" 2. Login");
-            System.out.println(" 0. Exit");
-            System.out.print("Choose an option: ");
+            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ USER MENU ════════════════════════").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  Sign Up");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  Login");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
+
+            System.out.print(Ansi.ansi().fg(CYAN).a("Choose an option: ").reset());
 
             while (!scanner.hasNextInt()) {
                 System.out.println("Invalid input! Please enter a number.");
@@ -58,9 +70,9 @@ public class Main {
             switch (userOption) {
                 case 1:
                     UserLoginSignUp.signUp();  // ✅ Calls method from User package
-                    System.out.println("\n ____________________________________________");
-                    System.out.println("\n |                 Login                     |");
-                    System.out.println("\n |___________________________________________|");
+                    System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
+                    System.out.println(Ansi.ansi().fg(YELLOW).a( "║               🔐 LOGIN PAGE           ║").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("╠══════════════════════════════════════════╣").reset());
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);
                     }
@@ -81,10 +93,11 @@ public class Main {
 
     private static void loggedInMenu(Scanner scanner) {
         int option;
+        SeatHall seatHall = new SeatHall();
         do {
             System.out.println("\n---------------- Logged-In Menu ----------------");
             System.out.println(" 1. View Movies");
-            System.out.println(" 2. Book a Seat");
+            System.out.println(" 2. View Halls");
             System.out.println(" 0. Logout");
             System.out.print("Choose an option: ");
 
@@ -100,7 +113,15 @@ public class Main {
                     DisplayMovie.showMovies();  // ✅ Calls method from MovieList package
                     break;
                 case 2:
-                    System.out.println("Booking Seat (Feature to be implemented)");
+                    boolean viewingSeats = true;
+                    while (viewingSeats) {
+                        SeatHall.displaySeating(); // Call the display method
+                        System.out.print("Do you want to view the seating again? (yes/no): ");
+                        String choice = scanner.nextLine().trim().toLowerCase();
+                        if (choice.equals("no")) {
+                            viewingSeats = false; // Exit the loop
+                        }
+                    }
                     break;
                 case 0:
                     System.out.println("Logging out...");

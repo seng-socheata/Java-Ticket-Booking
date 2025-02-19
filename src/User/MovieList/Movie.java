@@ -1,4 +1,5 @@
 package User.MovieList;
+import java.time.Duration;
 
 public class Movie {
     private int id;
@@ -48,13 +49,12 @@ public class Movie {
     }
 
     public void displayMovie() {
-        int hours = duration / 60;
-        int minutes = duration % 60;
-        String durationFormatted = String.format("%dh %02dmin", hours, minutes);
+        int hours = duration / 60;   // Convert minutes to hours
+        int minutes = duration % 60; // Get remaining minutes
+        String formattedDuration = String.format("%dh %02dm", hours, minutes);
 
-
-        System.out.printf("| %-3d | %-20s | %-10s | %-8d | %-5.1f | %-9s | %-12s |\n",
-                id, title, genre, duration, rating, hasSubtitle? "Khmer" : "English", releaseDate);
+        System.out.printf("| %-3d | %-20s | %-15s | %-8s | %-5.1f | %-9s | %-12s |\n",
+                id, title, genre, formattedDuration, rating, hasSubtitle ? "Khmer" : "English", releaseDate);
     }
 }
 

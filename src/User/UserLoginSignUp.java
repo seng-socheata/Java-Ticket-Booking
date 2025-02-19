@@ -1,8 +1,11 @@
 package User;
 
+import org.fusesource.jansi.Ansi;
+
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.Scanner;
+import static org.fusesource.jansi.Ansi.Color.*;
 
 public class UserLoginSignUp {
     private String username;
@@ -52,7 +55,7 @@ public class UserLoginSignUp {
 
         String username;
         while (true) {
-            System.out.print("Username: ");
+            System.out.print("\uD83D\uDC64 Username: ");
             username = input.nextLine().trim();
             if (isValidUsername(username)) break;
             System.out.println("Invalid username! It cannot be empty or contain only numbers. Please enter a valid username.");
@@ -60,7 +63,7 @@ public class UserLoginSignUp {
 
         String email;
         while (true) {
-            System.out.print("Email: ");
+            System.out.print("\uD83D\uDCE9 Email: ");
             email = input.nextLine().trim();
             if (!email.isEmpty() && isValidEmail(email)) break;
             System.out.println("Invalid email! Please enter a valid email with @email.com.");
@@ -69,7 +72,7 @@ public class UserLoginSignUp {
 
         String phoneNumber;
         while (true) {
-            System.out.print("Phone Number (at least 8 digits): ");
+            System.out.print("\uD83D\uDCDE Phone Number:  (at least 8 digits): ");
             phoneNumber = input.nextLine().trim();
             if (!phoneNumber.isEmpty() && isValidPhoneNumber(phoneNumber)) break;
             System.out.println("Invalid phone number! It must be at least 8 digits.");
@@ -77,7 +80,7 @@ public class UserLoginSignUp {
 
         String password;
         while (true) {
-            System.out.print("Password: ");
+            System.out.print("\uD83D\uDD11 Password:  ");
             password = input.nextLine().trim();
             if (!password.isEmpty()) break;
             System.out.println("Password cannot be empty! Please enter your password.");
@@ -94,7 +97,7 @@ public class UserLoginSignUp {
         String email;
 
         while (true) {
-            System.out.print("Email: ");
+            System.out.print("\uD83D\uDCE9 Email: ");
             email = scanner.nextLine().trim();
             if (!email.isEmpty() && isValidEmail(email)) {
                 if (users.containsKey(email)) break;
@@ -106,7 +109,7 @@ public class UserLoginSignUp {
 
         String phoneNumber;
         while (true) {
-            System.out.print("Phone Number: ");
+            System.out.print("\uD83D\uDCDE Phone Number: ");
             phoneNumber = scanner.nextLine().trim();
             if (!phoneNumber.isEmpty() && users.get(email).getPhoneNumber().equals(phoneNumber)) break;
             System.out.println("Incorrect phone number! Please try again.");
@@ -135,7 +138,12 @@ public class UserLoginSignUp {
 
         if (users.get(email).getPassword().equals(password)) {
             UserLoginSignUp user = users.get(email);
-            System.out.println("\n--------------------------------------Login successful!!-----------------------------------------");
+            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════════════════════════════════").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉              ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("╠══════════════════════════════════════════════════╣").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("║   Welcome back! You have successfully logged in.  ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("╚══════════════════════════════════════════════════╝").reset());
+
             return true;
         } else {
             System.out.println("Incorrect password. Please try again.");
