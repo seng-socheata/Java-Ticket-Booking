@@ -110,7 +110,7 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    DisplayMovie.showMovies();  // ✅ Calls method from MovieList package
+                    DisplayMovie.showMovies();
                     break;
                 case 2:
                     boolean viewingSeats = true;

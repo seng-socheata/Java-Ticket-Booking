@@ -1,63 +1,68 @@
 package User;
 
-import java.util.Scanner;
-
 public class SeatHall {
-    private static String[][] seats;
-    private static final int rows = 10; // Rows J-A
+    private static final int rows = 10; // Regular rows (J-A)
     private static final int cols = 10; // Columns 1-10
+    private static String[][] seats = new String[rows + 1][cols]; // +1 for VIP row
+
+    // ANSI escape codes for colors
     private static final String RESET = "\u001B[0m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String CYAN = "\u001B[36m";
+    private static final String VIP_COLOR = "\u001B[32m"; // Green for VIP
+    private static final String REGULAR_COLOR = "\u001B[34m"; // Blue for regular
 
     public SeatHall() {
-        // Initialize the seating arrangement
-        seats = new String[rows + 1][cols]; // +1 for VIP row
         initializeSeats();
     }
 
     private void initializeSeats() {
-        // Fill regular seats (J-A)
         char rowLabel = 'J';
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                seats[i][j] = rowLabel + String.valueOf(j + 1) + "-AV"; // Regular seats
+                seats[i][j] = rowLabel + String.valueOf(j + 1) + "-AV";
             }
             rowLabel--;
         }
 
-        // Fill VIP seats (2 columns, mix positions)
+        // Fill VIP seats (in pairs)
         for (int j = 0; j < cols; j++) {
-            if (j % 5 == 0) {
-                seats[rows][j] = "VIP" + (j + 1);
+            if (j % 2 == 0) {
+                seats[rows][j] = VIP_COLOR + "VIP" + (j + 1) + RESET; // First seat in pair
             } else {
-                seats[rows][j] = ""; // Empty for non-VIP columns
+                seats[rows][j] = VIP_COLOR + "VIP" + (j) + "-" + (j + 1) + RESET; // Second seat in pair
             }
         }
     }
 
     public static void displaySeating() {
-        System.out.println(GREEN + "╔" + "═".repeat(100) + "╗");
-        System.out.println(GREEN + "║" + " ".repeat(100) + "Screen" + " ".repeat(20) + "║");
-        System.out.println(GREEN + "╠" + "═".repeat(100) + "╣");
+        System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                                     Welcome to the Cinema!                                     ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                                            Screen                                              ║");
+        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
 
-        // Display regular seats (J-A)
         for (int i = 0; i < rows; i++) {
-            System.out.print(BLUE + "║  " + (char) ('J' - i) + "   " + RESET);
+            System.out.print("║  " + (char) ('J' - i) + "   ║ ");
             for (int j = 0; j < cols; j++) {
-                System.out.print(CYAN + " " + seats[i][j] + " " + RESET + BLUE + "║");
+                String seat = seats[i][j];
+                String displaySeat = REGULAR_COLOR + seat + RESET;
+                System.out.printf(" %-9s ║", displaySeat); // Uniform width for seats
             }
             System.out.println();
-            System.out.println(GREEN + "╠" + "═".repeat(100) + "╣");
+            System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
         }
 
-        // Display VIP seats
-        System.out.print(BLUE + "║ VIP  " + RESET);
-        for (int j = 0; j < cols; j++) {
-            System.out.print(CYAN + " " + seats[rows][j] + " " + RESET + BLUE + "║");
+        // Display VIP row
+        System.out.print("║ VIP  ║ ");
+        for (int j = 0; j < cols; j += 2) { // Pairing VIP seats
+            if (!seats[rows][j].isEmpty()) {
+                String vipPair = seats[rows][j] + (j + 1 < cols && !seats[rows][j + 1].isEmpty() ? "-" + seats[rows][j + 1] : "");
+                System.out.printf(" %-24s ║", vipPair); // Wider space for VIP pairs
+            }
         }
         System.out.println();
-        System.out.println(GREEN + "╚" + "═".repeat(47) + "╝" + RESET);
+
+        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
     }
+
+
 }
