@@ -20,13 +20,7 @@ public class Main {
             System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
-            System.out.print("Enter your choice: ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = getValidInput(scanner, "Enter your choice: ");
 
             switch (option) {
                 case 1:
@@ -46,6 +40,7 @@ public class Main {
         scanner.close();
     }
 
+    // ✅ User Menu
     private static void userMenu(Scanner scanner) {
         int userOption;
         do {
@@ -58,21 +53,14 @@ public class Main {
             System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
-            System.out.print(Ansi.ansi().fg(CYAN).a("Choose an option: ").reset());
-
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            userOption = scanner.nextInt();
-            scanner.nextLine();
+            userOption = getValidInput(scanner, "Choose an option: ");
 
             switch (userOption) {
                 case 1:
-                    UserLoginSignUp.signUp();  // ✅ Calls method from User package
                     System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
-                    System.out.println(Ansi.ansi().fg(YELLOW).a( "║               🔐 LOGIN PAGE           ║").reset());
+                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 LOGIN PAGE           ║").reset());
                     System.out.println(Ansi.ansi().fg(BLUE).a("╠══════════════════════════════════════════╣").reset());
+                    UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);
                     }
@@ -91,6 +79,9 @@ public class Main {
         } while (userOption != 0);
     }
 
+
+
+    // ✅ Logged-in User Menu
     private static void loggedInMenu(Scanner scanner) {
         int option;
         SeatHall seatHall = new SeatHall();
@@ -101,27 +92,16 @@ public class Main {
             System.out.println(" 0. Logout");
             System.out.print("Choose an option: ");
 
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = getValidInput(scanner, "Choose an option: ");
 
             switch (option) {
                 case 1:
                     DisplayMovie.showMovies();
                     break;
                 case 2:
-                    boolean viewingSeats = true;
-                    while (viewingSeats) {
-                        SeatHall.displaySeating(); // Call the display method
-                        System.out.print("Do you want to view the seating again? (yes/no): ");
-                        String choice = scanner.nextLine().trim().toLowerCase();
-                        if (choice.equals("no")) {
-                            viewingSeats = false; // Exit the loop
-                        }
-                    }
+                    SeatHall.displaySeating();
+                    SeatHall.bookSeats();
+                    SeatHall.printReceipt();
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -131,4 +111,22 @@ public class Main {
             }
         } while (option != 0);
     }
+
+    // ✅ Method to ensure valid integer input (prevents string entry)
+    private static int getValidInput(Scanner scanner, String message) {
+        int input;
+        while (true) {
+            System.out.print(message);
+            if (scanner.hasNextInt()) {
+                input = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+                break;
+            } else {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.next(); // Discard invalid input
+            }
+        }
+        return input;
+    }
 }
+

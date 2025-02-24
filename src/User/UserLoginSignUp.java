@@ -97,6 +97,9 @@ public class UserLoginSignUp {
         String email;
 
         while (true) {
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 LOGIN PAGE                ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
             System.out.print("\uD83D\uDCE9 Email: ");
             email = scanner.nextLine().trim();
             if (!email.isEmpty() && isValidEmail(email)) {
