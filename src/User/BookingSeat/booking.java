@@ -77,9 +77,6 @@ class Booking {
                 .a("──────────────── BOOKING DETAILS ────────────────")
                 .reset());
 
-        // Correct usage of printf:
-        //   1) Provide a format string.
-        //   2) Provide the arguments in the correct order.
         System.out.printf(
                 Ansi.ansi().fg(Ansi.Color.YELLOW).a("Booking ID: %-36s\n").reset().toString(),
                 bookingId
