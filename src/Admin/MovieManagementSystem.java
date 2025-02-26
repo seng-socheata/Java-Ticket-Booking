@@ -1,15 +1,40 @@
-package Admin.Movie;
+package Admin;
 
 import java.util.*;
-import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Main{
+class Movie {
+    private final int id;
+    private final String title;
+    private final String genre;
+    private final int duration;
+    private final double price;
+    private final String releaseDate;
+
+
+    public Movie(int id, String title, String genre, int duration, double price, String releaseDate ) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.duration = duration;
+        this.price = price;
+        this.releaseDate = releaseDate;
+
+    }
+
+    public void display() {
+        System.out.println("Movie ID: " + id + " | Movie title: " + title + " | Price: $" + price + "Movie release date: " + releaseDate );
+    }
+}
+
+
+public class MovieManagementSystem {
     private static List<Movie> movies = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
 
+    static Scanner input = new Scanner(System.in);
     public static void main(String[] args) {
 
-        System.out.println("Login successful! Welcome, Admin.");
         int choice;
         do {
             System.out.println("\n1. View Movies");
@@ -55,15 +80,22 @@ public class Main{
     }
 
     private static void addMovie() {
-        System.out.print("Enter movie name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter movie time: ");
-        String time = scanner.nextLine();
+        System.out.println("Enter movie id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter movie title: ");
+        String title = scanner.nextLine();
+        System.out.println("Gnere: ");
+        String genre = scanner.nextLine();
+        System.out.println("Duration: ");
+        int duration = scanner.nextInt();
         System.out.print("Enter movie price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
+        System.out.println("Movie release date: ");
+        String releaseDate = scanner.nextLine();
 
-        movies.add(new Movie(name, time, price));
+        movies.add(new Movie(id, title, genre, duration, price, releaseDate));
         System.out.println("Movie added successfully!");
     }
 
@@ -79,15 +111,23 @@ public class Main{
             return;
         }
 
-        System.out.print("Enter new movie name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter new movie time: ");
-        String time = scanner.nextLine();
-        System.out.print("Enter new movie price: ");
+        System.out.println("Enter movie id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter movie title: ");
+        String title = scanner.nextLine();
+        System.out.println("Gnere: ");
+        String genre = scanner.nextLine();
+        System.out.println("Duration: ");
+        int duration = scanner.nextInt();
+
+        System.out.print("Enter movie price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
+        System.out.println("Movie release date: ");
+        String releaseDate = scanner.nextLine();
 
-        movies.set(index, new Movie(name, time, price));
+        movies.add(new Movie(id, title, genre, duration, price, releaseDate));
         System.out.println("Movie updated successfully!");
     }
 
