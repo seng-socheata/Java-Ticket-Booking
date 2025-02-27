@@ -1,7 +1,6 @@
-package Admin;
+package Admin.MovieManageSystem;
 
 import java.util.*;
-import java.util.Scanner;
 
 class Movie {
     private final int id;
@@ -11,29 +10,47 @@ class Movie {
     private final double price;
     private final String releaseDate;
 
-
-    public Movie(int id, String title, String genre, int duration, double price, String releaseDate ) {
+    public Movie(int id, String title, String genre, int duration, double price, String releaseDate) {
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.duration = duration;
         this.price = price;
         this.releaseDate = releaseDate;
-
     }
 
     public void display() {
-        System.out.println("Movie ID: " + id + " | Movie title: " + title + " | Price: $" + price + "Movie release date: " + releaseDate );
+        System.out.println("Movie ID: " + id + " | Movie title: " + title + " | Price: $" + price + " | Movie release date: " + releaseDate);
     }
 }
 
+class Admin {
+    private final String username = "Mike";
+    private final String password = "hashi18";
+
+    public boolean login(String user, String pass) {
+        return username.equals(user) && password.equals(pass);
+    }
+}
 
 public class MovieManagementSystem {
-    private static List<Movie> movies = new ArrayList<>();
-    private static Scanner scanner = new Scanner(System.in);
+    private static final List<Movie> movies = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
 
-    static Scanner input = new Scanner(System.in);
     public static void main(String[] args) {
+        Admin admin = new Admin();
+
+        while (true) {
+            System.out.print("Enter Username: ");
+            String username = scanner.nextLine();
+            System.out.print("Enter Password: ");
+            String password = scanner.nextLine();
+            if (admin.login(username, password)) {
+                System.out.println("Login successful! Welcome, Admin.");
+                break;
+            }
+            System.out.println("Invalid credentials!");
+        }
 
         int choice;
         do {
@@ -80,19 +97,19 @@ public class MovieManagementSystem {
     }
 
     private static void addMovie() {
-        System.out.println("Enter movie id: ");
+        System.out.print("Enter movie ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         System.out.print("Enter movie title: ");
         String title = scanner.nextLine();
-        System.out.println("Gnere: ");
+        System.out.print("Genre: "); // Fix spelling
         String genre = scanner.nextLine();
-        System.out.println("Duration: ");
+        System.out.print("Duration: ");
         int duration = scanner.nextInt();
         System.out.print("Enter movie price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        System.out.println("Movie release date: ");
+        System.out.print("Movie release date: ");
         String releaseDate = scanner.nextLine();
 
         movies.add(new Movie(id, title, genre, duration, price, releaseDate));
@@ -102,6 +119,7 @@ public class MovieManagementSystem {
     private static void updateMovie() {
         viewMovies();
         if (movies.isEmpty()) return;
+
         System.out.print("Enter movie number to update: ");
         int index = scanner.nextInt() - 1;
         scanner.nextLine();
@@ -111,29 +129,30 @@ public class MovieManagementSystem {
             return;
         }
 
-        System.out.println("Enter movie id: ");
+        System.out.print("Enter new movie ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter movie title: ");
+        System.out.print("Enter new movie title: ");
         String title = scanner.nextLine();
-        System.out.println("Gnere: ");
+        System.out.print("Genre: "); // Fix spelling
         String genre = scanner.nextLine();
-        System.out.println("Duration: ");
+        System.out.print("Duration: ");
         int duration = scanner.nextInt();
-
-        System.out.print("Enter movie price: ");
+        System.out.print("Enter new movie price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        System.out.println("Movie release date: ");
+        System.out.print("Movie release date: ");
         String releaseDate = scanner.nextLine();
 
-        movies.add(new Movie(id, title, genre, duration, price, releaseDate));
+        // Fix: Replace existing movie instead of adding a new one
+        movies.set(index, new Movie(id, title, genre, duration, price, releaseDate));
         System.out.println("Movie updated successfully!");
     }
 
     private static void deleteMovie() {
         viewMovies();
         if (movies.isEmpty()) return;
+
         System.out.print("Enter movie number to delete: ");
         int index = scanner.nextInt() - 1;
         scanner.nextLine();
