@@ -2,6 +2,8 @@ package User;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.fusesource.jansi.Ansi;
+import static org.fusesource.jansi.Ansi.Color.*;
 
 public class SeatHall {
     private static final int rows = 10;
@@ -16,6 +18,7 @@ public class SeatHall {
     public SeatHall() {
         initializeSeats();
     }
+
 
     private void initializeSeats() {
         char rowLabel = 'J';
@@ -33,85 +36,65 @@ public class SeatHall {
         }
     }
 
-//    public static void displaySeating() {
-//        System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════╗");
-//        System.out.println("║                                     Welcome to the Cinema!                                     ║");
-//        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════════════╣");
-//        System.out.println("║                                            Screen                                              ║");
-//        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════╝");
-//
-//        for (int i = 0; i < rows; i++) {
-//            System.out.print("║  " + (char) ('J' - i) + "   ║ ");
-//            for (int j = 0; j < cols; j++) {
-//                String seat = seats[i][j];
-//                String displaySeat = REGULAR_COLOR + seat + RESET;
-//                System.out.printf(" %-9s ║", displaySeat);
-//            }
-//            System.out.println();
-//            System.out.println("╠═══════════════════════════════════════════════════════════════════════════════════════════╣");
-//        }
-//
-//        // Display VIP row
-//        System.out.print("║ VIP  ║ ");
-//        for (int j = 0; j < cols; j += 2) {
-//            System.out.printf(" %-10s ║", seats[rows][j]);
-//        }
-//        System.out.println();
-//        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
-//    }
-public static void displaySeating() {
-    System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════╗");
-    System.out.println("║                                     Welcome to the Cinema!                             ║");
-    System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
-    System.out.println("║                                            Screen                                      ║");
-    System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
+    public static void displaySeating() {
+        System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════╗");
+        System.out.println("║                                     Welcome to the Cinema!                             ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
+        System.out.println("║                                            Screen                                      ║");
+        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
 
-    for (int i = 0; i < rows; i++) {
-        System.out.print("║  " + (char) ('J' - i) + "   ║ ");
-        for (int j = 0; j < cols; j++) {
-            String seat = seats[i][j];
-            String displaySeat = REGULAR_COLOR + seat + RESET;
-            System.out.printf(" %-9s ║", displaySeat); // Uniform width for seats
+        for (int i = 0; i < rows; i++) {
+            System.out.print("║  " + (char) ('J' - i) + "   ║ ");
+            for (int j = 0; j < cols; j++) {
+                String seat = seats[i][j];
+                String displaySeat = REGULAR_COLOR + seat + RESET;
+                System.out.printf(" %-11s ║", displaySeat); // Uniform width for seats
+            }
+            System.out.println();
+            System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
+        }
+
+        // Display VIP row
+        System.out.print("║ VIP  ║ ");
+        for (int j = 0; j < cols; j += 2) { // Pairing VIP seats
+            if (!seats[rows][j].isEmpty()) {
+                String vipPair = "💜 " + seats[rows][j] + (j + 1 < cols && !seats[rows][j + 1].isEmpty() ? "-💜 " + seats[rows][j + 1] : "");
+                System.out.printf(" %-20s  ║", vipPair); // Wider space for VIP pairs
+            }
         }
         System.out.println();
-        System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
+
+        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
-    // Display VIP row
-    System.out.print("║ VIP  ║ ");
-    for (int j = 0; j < cols; j += 2) { // Pairing VIP seats
-        if (!seats[rows][j].isEmpty()) {
-            String vipPair = seats[rows][j] + (j + 1 < cols && !seats[rows][j + 1].isEmpty() ? "-" + seats[rows][j + 1] : "");
-            System.out.printf(" %-30s  ║", vipPair); // Wider space for VIP pairs
-        }
-    }
-    System.out.println();
-
-    System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
-}
     public static void bookSeats() {
         Scanner scanner = new Scanner(System.in);
         boolean bookingMore = true;
 
         while (bookingMore) {
-            System.out.print("Enter row (VIP-A): ");
+            System.out.print("Enter row (VIP-A) -> ");
             String rowInput = scanner.next().toUpperCase();
 
-            System.out.print("Enter column: ");
+            System.out.print("Enter column -> ");
             int colInput = scanner.nextInt() - 1;
 
             if (rowInput.equals("VIP")) {
+                System.out.print("Enter column (first seat number (e.g. VIP1, VIP3,)-> ");
                 if (colInput % 2 == 0 && colInput < cols - 1) {
                     if (seats[rows][colInput].contains("BK")) {
                         System.out.println("❌ This VIP pair is already booked!");
                     } else {
                         seats[rows][colInput] = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2) + "-BK";
-                        bookedSeats.add("VIP" + (colInput + 1) + "-VIP" + (colInput + 2));
-                        System.out.println("✅ VIP seats " + "VIP" + (colInput + 1) + "-VIP" + (colInput + 2) + " booked successfully!");
+                        String vipSeatPair = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2);
+                        bookedSeats.add(vipSeatPair);
+                        UserSelection.bookedSeats.add(vipSeatPair); // ✅ FIX: Add VIP seats to receipt list
+
+                        System.out.println("✅ VIP seats " + vipSeatPair + " booked successfully!");
                     }
                 } else {
                     System.out.println("⚠️ Please enter the first seat number in the VIP pair (e.g., VIP1, VIP3, etc.).");
                 }
+//
             } else {
                 int rowIndex = 'J' - rowInput.charAt(0);
                 if (rowIndex >= 0 && rowIndex < rows && colInput >= 0 && colInput < cols) {
@@ -125,45 +108,22 @@ public static void displaySeating() {
                 } else {
                     System.out.println("⚠️ Invalid seat selection. Please try again.");
                 }
+                UserSelection.bookedSeats.add(rowInput + (colInput+1));
             }
 
-            System.out.print("Do you want to book more seats? (YES/NO): ");
+            System.out.print("Do you want to book more seats? (YES/NO)-> ");
             bookingMore = scanner.next().equalsIgnoreCase("YES");
         }
 
 
     }
-
     public static void printReceipt() {
-        String movieName=" ";
-        String location=" ";
-        String showTime=" ";
-        double regularPrice = 4.0;
-        double vipPrice = 10.0;
-        double totalPrice = 0;
 
-        System.out.println("\n====================================");
-        System.out.println("            Booking Receipt         ");
-        System.out.println("====================================");
-        System.out.println("🎬 Movie: " + movieName);
-        System.out.println("📍 Location: " + location);
-        System.out.println("🕒 Showtime: " + showTime);
-        System.out.println("------------------------------------");
+        UserSelection.displaySummary();
 
-        for (String seat : bookedSeats) {
-            if (seat.contains("VIP")) {
-                System.out.println("Seat: " + seat + " (VIP) - $" + vipPrice);
-                totalPrice += vipPrice;
-            } else {
-                System.out.println("Seat: " + seat + " (Regular) - $" + regularPrice);
-                totalPrice += regularPrice;
-            }
-        }
-
-        System.out.println("------------------------------------");
-        System.out.println("Total Price: $" + totalPrice);
-        System.out.println("====================================");
-        System.out.println("🎉 Thank you for booking with us! Enjoy your movie.");
     }
-
 }
+
+
+
+

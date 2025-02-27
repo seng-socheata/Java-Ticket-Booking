@@ -1,6 +1,7 @@
 import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
+import User.SeatHall;
 import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class Main {
             System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
-            option = getValidInput(scanner, "Enter your choice: ");
+            option = getValidInput(scanner, "Enter your choice-> ");
 
             switch (option) {
                 case 1:
@@ -58,7 +59,7 @@ public class Main {
             switch (userOption) {
                 case 1:
                     System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
-                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 LOGIN PAGE           ║").reset());
+                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 SIGN UP PAGE          ║").reset());
                     System.out.println(Ansi.ansi().fg(BLUE).a("╠══════════════════════════════════════════╣").reset());
                     UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
@@ -92,7 +93,7 @@ public class Main {
             System.out.println(" 0. Logout");
             System.out.print("Choose an option: ");
 
-            option = getValidInput(scanner, "Choose an option: ");
+            option = getValidInput(scanner, "Choose an option->  ");
 
             switch (option) {
                 case 1:
@@ -102,6 +103,7 @@ public class Main {
                     SeatHall.displaySeating();
                     SeatHall.bookSeats();
                     SeatHall.printReceipt();
+
                     break;
                 case 0:
                     System.out.println("Logging out...");

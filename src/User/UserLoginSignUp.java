@@ -80,11 +80,14 @@ public class UserLoginSignUp {
 
         String password;
         while (true) {
-            System.out.print("\uD83D\uDD11 Password:  ");
+            System.out.print("\uD83D\uDD11 Password: ");
             password = input.nextLine().trim();
-            if (!password.isEmpty()) break;
-            System.out.println("Password cannot be empty! Please enter your password.");
+
+            if (password.length() >= 8) break; // ✅ Ensure at least 8 characters
+
+            System.out.println("❌ Password must be at least 8 characters long! Please try again.");
         }
+
 
         users.put(email, new UserLoginSignUp(username, email, phoneNumber, password));
         System.out.println("Sign-up successful! You can now log in.");

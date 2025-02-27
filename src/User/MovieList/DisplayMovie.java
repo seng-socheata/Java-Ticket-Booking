@@ -1,11 +1,13 @@
 package User.MovieList;
 
 
+import User.SeatHall;
+import User.UserSelection;
 import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static User.UserSelection.selectedMovie;
 import static org.fusesource.jansi.Ansi.Color.*;
 
 public class DisplayMovie {
@@ -85,7 +87,7 @@ public class DisplayMovie {
         // 🎟️ Select Movie (With Validation)
         int movieId;
         while (true) {
-            System.out.print("Choose a movie by ID: ");
+            System.out.print("Choose a movie by ID -> ");
             movieId = scanner.nextInt();
             if (movieId >= 1 && movieId <= movieList.size()) {
                 break;
@@ -103,7 +105,7 @@ public class DisplayMovie {
                 "Today (18)", "Tue (19)", "Wed (20)", "Thurs (21)");
         System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╝").reset());
 
-        System.out.print("Choose Date (Enter number 1-4): ");
+        System.out.print("Choose Date (Enter number 1-4)-> ");
         int dateChoice = scanner.nextInt();
 
         System.out.println("\n🎬 You have selected: " + movieList.get(movieId - 1).getTitle());
@@ -130,20 +132,44 @@ public class DisplayMovie {
                     location[0], location[1], location[2], location[3], location[4], location[5]);
         }
 
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╝").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝").reset());
 
-        System.out.print("Choose Location (Enter number 1-4): ");
+        System.out.print("Choose Location (Enter number 1-4)-> ");
         int locationChoice = scanner.nextInt();
 
         System.out.println("\n📍 Location: " + locations[locationChoice - 1][0]);
 
-        System.out.print("Choose Time Slot (Enter 1-5): ");
+        System.out.print("Choose Time Slot (Enter 1-5)-> ");
         int timeChoice = scanner.nextInt();
 
         System.out.println("\n🕒 Time: " + locations[locationChoice - 1][timeChoice]);
-        System.out.println("You Choose Successfully..");
+        selectedMovie = movieList.get(movieId - 1).getTitle();
+        UserSelection.assignedHall = assignHall(movieList.get(movieId - 1).getId()); // ✅ Assign Hall
+        UserSelection.selectedDate = dates[dateChoice - 1];
+        UserSelection.selectedLocation = locations[locationChoice - 1][0];
+        UserSelection.selectedTime = locations[locationChoice - 1][timeChoice];
+
+
+        System.out.println("\n🎬 You have selected: " + selectedMovie);
+        System.out.println("\uD83C\uDFDB Hall: "+ UserSelection.assignedHall);
+        System.out.println("📅 Date: " + UserSelection.selectedDate);
+        System.out.println("📍 Location: " + UserSelection.selectedLocation);
+        System.out.println("🕒 Time: " + UserSelection.selectedTime);
 
     }
+
+    private static String assignHall(int movieId) {
+        if (movieId >= 1 && movieId <= 4) {
+            return "Hall A";
+        } else if (movieId >= 5 && movieId <= 7) {
+            return "Hall B";
+        } else {
+            return "Hall C";
+        }
+
+    }
+
+
     private static String formattedDuration(int duration) {
         int hours = duration / 60;
         int minutes = duration % 60;
