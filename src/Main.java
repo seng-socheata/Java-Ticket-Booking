@@ -58,9 +58,9 @@ public class Main {
 
             switch (userOption) {
                 case 1:
-                    System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
-                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 SIGN UP PAGE          ║").reset());
-                    System.out.println(Ansi.ansi().fg(BLUE).a("╠══════════════════════════════════════════╣").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
+                    System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 SIGN UP PAGE              ║").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
                     UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);

@@ -15,6 +15,7 @@ public class SeatHall {
     private static final String VIP_COLOR = "\u001B[32m";
     private static final String REGULAR_COLOR = "\u001B[34m";
 
+
     public SeatHall() {
         initializeSeats();
     }

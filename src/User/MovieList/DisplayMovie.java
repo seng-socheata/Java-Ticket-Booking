@@ -43,7 +43,7 @@ public class DisplayMovie {
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ MOVIE LIST ══════════════════════").reset());
         System.out.println(Ansi.ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-10s ║ %-12s ║\n").reset()),
+        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║ %-12s ║\n").reset()),
                 "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Release Date");
         System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
 
@@ -52,7 +52,7 @@ public class DisplayMovie {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? "Khmer" : "English";
 
-            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-10s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
                     movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getReleaseDate());
         }
@@ -122,7 +122,7 @@ public class DisplayMovie {
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE LOCATIONS & TIMES ══════════════════════").reset());
         System.out.println("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗");
-        System.out.printf(" ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n",
+        System.out.printf("║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║\n",
                 "Location", "Time 1", "Time 2", "Time 3", "Time 4", "Time 5");
         System.out.println("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣");
 

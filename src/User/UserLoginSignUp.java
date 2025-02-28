@@ -144,10 +144,10 @@ public class UserLoginSignUp {
 
         if (users.get(email).getPassword().equals(password)) {
             UserLoginSignUp user = users.get(email);
-            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════════════════════════════════").reset());
-            System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉              ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("\n╔══════════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉            ║").reset());
             System.out.println(Ansi.ansi().fg(GREEN).a("╠══════════════════════════════════════════════════╣").reset());
-            System.out.println(Ansi.ansi().fg(BLUE).a("║   Welcome back! You have successfully logged in.  ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("║   Welcome back! You have successfully logged in. ║").reset());
             System.out.println(Ansi.ansi().fg(GREEN).a("╚══════════════════════════════════════════════════╝").reset());
 
             return true;

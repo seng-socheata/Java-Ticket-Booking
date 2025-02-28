@@ -2,6 +2,8 @@ package User;
 
 import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
+
+
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
 
@@ -18,7 +20,7 @@ public class UserSelection {
 
     public static void displaySummary() {
         System.out.println(Ansi.ansi().fg(GREEN).a("\n╔═══════════════════════════════════════════════════╗").reset());
-        System.out.println(Ansi.ansi().fg(YELLOW).a("║             CONFIRMATION                        ║").reset());
+        System.out.println(Ansi.ansi().fg(YELLOW).a("║             CONFIRMATION                          ║").reset());
         System.out.println(Ansi.ansi().fg(GREEN).a("╚═══════════════════════════════════════════════════╝").reset());
         System.out.println("🎬 Movie: " + selectedMovie);
         System.out.println("📅 Date: " + selectedDate);
@@ -35,7 +37,7 @@ public class UserSelection {
         if (response.equals("yes")) {
             processPayment();
         } else {
-            System.out.println("\n❌ Booking Canceled. Have a great day!");
+            System.out.println("\n❌ Booking Canceled. Have a great day!🌷");
         }
     }
 
@@ -75,17 +77,25 @@ public class UserSelection {
         int regularSeats = 0;
         int vipSeats = 0;
 
+        System.out.println("Booked Seats: " + bookedSeats);
+
         for (String seat : UserSelection.bookedSeats) {
-            if (seat.startsWith("R")) regularSeats++;
-            else if (seat.startsWith("V")) vipSeats++;
+            if (seat.matches("^[A-J]\\d+")) {
+                regularSeats++;
+            } else if (seat.startsWith("V")) {
+                vipSeats++;
+            }
         }
+        // Debugging output
+        System.out.println("Regular Seats: " + regularSeats);
+        System.out.println("VIP Seats: " + vipSeats);
 
         int totalTickets = regularSeats + vipSeats;
         double totalPrice = (regularSeats * regularSeatPrice) + (vipSeats * vipSeatPrice);
         double discountAmount = totalPrice * (discount / 100);
         double finalPrice = totalPrice - discountAmount;
 
-        // Display receipt
+//        Display receipt
         System.out.println("\n======================================");
         System.out.println("           🎟️ BOOKING RECEIPT         ");
         System.out.println("======================================");
@@ -110,6 +120,11 @@ public class UserSelection {
         System.out.println("======================================");
         System.out.println("🎉 Payment successful! Enjoy your movie! 🍿");
         System.out.println("======================================\n");
+
+
     }
 }
+
+
+
 
