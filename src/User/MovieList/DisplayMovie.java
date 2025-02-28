@@ -38,7 +38,7 @@ public class DisplayMovie {
     }
 
 
-    public static void showMovies() {
+    public static void showMovies(boolean isAdminVeiw) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ MOVIE LIST ══════════════════════").reset());
@@ -83,7 +83,9 @@ public class DisplayMovie {
 
         // Table Footer for Coming Soon Movies
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩──────────────╝").reset());
-
+        if (isAdminVeiw) {
+            return;
+        }
         // 🎟️ Select Movie (With Validation)
         int movieId;
         while (true) {
@@ -133,6 +135,7 @@ public class DisplayMovie {
         }
 
         System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝").reset());
+
 
         System.out.print("Choose Location (Enter number 1-4)-> ");
         int locationChoice = scanner.nextInt();
