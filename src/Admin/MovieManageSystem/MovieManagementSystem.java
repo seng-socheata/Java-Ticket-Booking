@@ -97,20 +97,31 @@ public class MovieManagementSystem {
             System.out.println("2. Add Movie");
             System.out.println("3. Update Movie");
             System.out.println("4. Delete Movie");
-            System.out.println("0. Exit");
+            System.out.println("5. Exit");
             System.out.print("Enter choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> viewMovies();
-                case 2 -> addMovie();
-                case 3 -> updateMovie();
-                case 4 -> deleteMovie();
-                case 0 -> System.out.println("Exiting system...");
-                default -> System.out.println("Invalid choice. Try again.");
+                case 1:
+                    viewMovies();
+                    break;
+                case 2:
+                    addMovie();
+                    break;
+                case 3:
+                    updateMovie();
+                    break;
+                case 4:
+                    deleteMovie();
+                    break;
+                case 0:
+                    System.out.println("Exiting system...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again.");
             }
-        } while (choice != 5);
+        } while (choice != 0);
     }
 
     private static void viewMovies() {
