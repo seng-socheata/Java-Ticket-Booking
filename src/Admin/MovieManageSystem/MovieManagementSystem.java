@@ -3,14 +3,14 @@ package Admin.MovieManageSystem;
 import java.util.*;
 
 class Movie {
-    private final int id;
-    private final String title;
-    private final String genre;
-    private final int duration;
-    private final double price;
-    private final String releaseDate;
+    private int id;
+    private String title;
+    private String genre;
+    private String duration;
+    private double price;
+    private String releaseDate;
 
-    public Movie(int id, String title, String genre, int duration, double price, String releaseDate) {
+    public Movie(int id, String title, String genre, String duration, double price, String releaseDate) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -19,9 +19,48 @@ class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public void display() {
-        System.out.println("Movie ID: " + id + " | Movie title: " + title + " | Price: $" + price + " | Movie release date: " + releaseDate);
+    public int getId(){
+        return id;
     }
+
+    public String getTitle(){
+        return title;
+    }
+    public void setTitle(String setTitle){
+        this.title = title;
+    }
+    public String getGenre(){
+        return genre;
+    }
+    public void setGenre(String setGenre){
+        this.genre = genre;
+    }
+    public String getDuration(){
+        return duration;
+    }
+    public void setDuration(String setDuration){
+        this.duration = duration;
+    }
+    public double getPrice(){
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public String getReleaseDate(){
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void display() {
+        System.out.println("Movie ID: " + id + " | Title: " + title + " | Genre: " + genre + " | Duration: " + duration + " | Price: $" + price + " | Release Date: " + releaseDate);
+    }
+
+
 }
 
 class Admin {
@@ -58,31 +97,20 @@ public class MovieManagementSystem {
             System.out.println("2. Add Movie");
             System.out.println("3. Update Movie");
             System.out.println("4. Delete Movie");
-            System.out.println("5. Exit");
+            System.out.println("0. Exit");
             System.out.print("Enter choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
-                case 1:
-                    viewMovies();
-                    break;
-                case 2:
-                    addMovie();
-                    break;
-                case 3:
-                    updateMovie();
-                    break;
-                case 4:
-                    deleteMovie();
-                    break;
-                case 0:
-                    System.out.println("Exiting system...");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Try again.");
+                case 1 -> viewMovies();
+                case 2 -> addMovie();
+                case 3 -> updateMovie();
+                case 4 -> deleteMovie();
+                case 0 -> System.out.println("Exiting system...");
+                default -> System.out.println("Invalid choice. Try again.");
             }
-        } while (choice != 0);
+        } while (choice != 5);
     }
 
     private static void viewMovies() {
@@ -90,6 +118,7 @@ public class MovieManagementSystem {
             System.out.println("No movies available.");
             return;
         }
+        System.out.println("\nMovie List:");
         for (int i = 0; i < movies.size(); i++) {
             System.out.print((i + 1) + ". ");
             movies.get(i).display();
@@ -102,18 +131,19 @@ public class MovieManagementSystem {
         scanner.nextLine();
         System.out.print("Enter movie title: ");
         String title = scanner.nextLine();
-        System.out.print("Genre: "); // Fix spelling
+        System.out.print("Enter genre: ");
         String genre = scanner.nextLine();
-        System.out.print("Duration: ");
-        int duration = scanner.nextInt();
-        System.out.print("Enter movie price: ");
+        System.out.print("Enter duration: ");
+        String duration = scanner.nextLine();
+        System.out.print("Enter price: ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        System.out.print("Movie release date: ");
+        System.out.print("Enter release date: ");
         String releaseDate = scanner.nextLine();
 
         movies.add(new Movie(id, title, genre, duration, price, releaseDate));
         System.out.println("Movie added successfully!");
+        viewMovies();
     }
 
     private static void updateMovie() {
@@ -129,24 +159,30 @@ public class MovieManagementSystem {
             return;
         }
 
-        System.out.print("Enter new movie ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter new movie title: ");
+        Movie movie = movies.get(index);
+        System.out.print("Enter new title (leave blank to keep " + movie.getTitle() + "): ");
         String title = scanner.nextLine();
-        System.out.print("Genre: "); // Fix spelling
+        if (!title.isEmpty()) movie.setTitle(title);
+
+        System.out.print("Enter new genre (leave blank to keep current " + movie.getGenre() + "): ");
         String genre = scanner.nextLine();
-        System.out.print("Duration: ");
-        int duration = scanner.nextInt();
-        System.out.print("Enter new movie price: ");
+        if (!genre.isEmpty()) movie.setGenre(genre);
+
+        System.out.print("Enter new duration (leave blank to keep current" + movie.getDuration() +"): ");
+        String duration = scanner.nextLine();
+        if (!duration.isEmpty()) movie.setDuration(duration);
+
+        System.out.print("Enter new price (or -1 to keep current " + movie.getPrice() + "): ");
         double price = scanner.nextDouble();
         scanner.nextLine();
-        System.out.print("Movie release date: ");
-        String releaseDate = scanner.nextLine();
+        if (price != -1) movie.setPrice(price);
 
-        // Fix: Replace existing movie instead of adding a new one
-        movies.set(index, new Movie(id, title, genre, duration, price, releaseDate));
+        System.out.print("Enter new release date (leave blank to keep current " + movie.getReleaseDate() + " ): ");
+        String releaseDate = scanner.nextLine();
+        if (!releaseDate.isEmpty()) movie.setReleaseDate(releaseDate);
+
         System.out.println("Movie updated successfully!");
+        viewMovies();
     }
 
     private static void deleteMovie() {
@@ -164,5 +200,6 @@ public class MovieManagementSystem {
 
         movies.remove(index);
         System.out.println("Movie deleted successfully!");
+        viewMovies();
     }
 }
