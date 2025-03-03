@@ -1,9 +1,11 @@
 package User;
 
+import User.MovieList.DisplayMovie;
 import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
 
 
+import static User.MovieList.DisplayMovie.showMovies;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
 
@@ -17,6 +19,11 @@ public class UserSelection {
     public static String selectedTime = "";
     public static String assignedHall = "";
     public static ArrayList<String> bookedSeats = new ArrayList<>();
+
+    private static final Scanner scanner = new Scanner(System.in); // ✅ Define scanner once
+
+
+
 
     public static void displaySummary() {
         System.out.println(Ansi.ansi().fg(GREEN).a("\n╔═══════════════════════════════════════════════════╗").reset());
@@ -36,8 +43,37 @@ public class UserSelection {
 
         if (response.equals("yes")) {
             processPayment();
-        } else {
+        } else if (response.equals("no")) {
             System.out.println("\n❌ Booking Canceled. Have a great day!🌷");
+            cancelBooking();
+
+        }
+    }
+
+
+    public static void cancelBooking() {
+//        System.out.println("\n❌ Booking Canceled. Resetting your selection...");
+
+        // Reset selections
+        selectedMovie = "";
+        selectedDate = "";
+        selectedLocation = "";
+        selectedTime = "";
+        assignedHall = "";
+        bookedSeats.clear();
+
+        System.out.println("✅ Your booking has been successfully canceled.");
+        System.out.print("\n🔄 Do you want to book again? (yes/no): ");
+
+        String response = scanner.nextLine().trim().toLowerCase();
+        if (response.equals("yes")) {
+            DisplayMovie.showMovies(false);
+            SeatHall.resetSeating();  // Reset seating before booking
+            SeatHall.displaySeating();
+            SeatHall.bookSeats();
+            SeatHall.printReceipt();
+        } else {
+            System.out.println("👋 Thank you! Have a great day!");
         }
     }
 

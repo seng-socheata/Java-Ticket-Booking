@@ -97,7 +97,7 @@ public class Main {
 
             switch (option) {
                 case 1:
-//                    DisplayMovie.showMovies();
+                    DisplayMovie.showMovies(false);
                     break;
                 case 2:
                     SeatHall.displaySeating();

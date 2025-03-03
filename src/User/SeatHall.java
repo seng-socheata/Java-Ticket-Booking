@@ -37,7 +37,27 @@ public class SeatHall {
         }
     }
 
-    public static void displaySeating() {
+        // Reset all seats to available after a cancellation or reset
+        public static void resetSeating() {
+            // Reset all seats to available
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    seats[i][j] = (char) ('J' - i) + String.valueOf(j + 1) + "-AV"; // Reset to "Available"
+                }
+            }
+
+            // Reset VIP seats to available as well
+            for (int j = 0; j < cols; j += 2) {
+                seats[rows][j] = VIP_COLOR + "VIP" + (j + 1) + "-" + "VIP" + (j + 2) + RESET;
+                seats[rows][j + 1] = ""; // Empty, since it's part of the pair
+            }
+
+            // Clear the list of booked seats
+            bookedSeats.clear();
+            UserSelection.bookedSeats.clear();
+        }
+
+        public static void displaySeating() {
         System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                                     Welcome to the Cinema!                             ║");
         System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
@@ -118,6 +138,8 @@ public class SeatHall {
 
 
     }
+
+
     public static void printReceipt() {
 
         UserSelection.displaySummary();
