@@ -2,8 +2,6 @@ package User;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.fusesource.jansi.Ansi;
-import static org.fusesource.jansi.Ansi.Color.*;
 
 public class SeatHall {
     private static final int rows = 10;
@@ -80,7 +78,6 @@ public class SeatHall {
             int colInput = scanner.nextInt() - 1;
 
             if (rowInput.equals("VIP")) {
-                System.out.print("Enter column (first seat number (e.g. VIP1, VIP3,)-> ");
                 if (colInput % 2 == 0 && colInput < cols - 1) {
                     if (seats[rows][colInput].contains("BK")) {
                         System.out.println("❌ This VIP pair is already booked!");

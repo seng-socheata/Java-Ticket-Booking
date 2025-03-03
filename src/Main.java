@@ -1,7 +1,8 @@
 import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
-import User.SeatHall;
+
+import Admin.MovieManagement;
 import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        MovieManagement movieManagement = new MovieManagement();
         int option;
 
         do {
@@ -28,7 +30,7 @@ public class Main {
                     userMenu(scanner);
                     break;
                 case 2:
-
+                    movieManagement.runAdminPanel();
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -58,9 +60,9 @@ public class Main {
 
             switch (userOption) {
                 case 1:
-                    System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
-                    System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 SIGN UP PAGE              ║").reset());
-                    System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
+                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 SIGN UP PAGE          ║").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
                     UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);
@@ -88,9 +90,13 @@ public class Main {
         SeatHall seatHall = new SeatHall();
         do {
             System.out.println("\n---------------- Logged-In Menu ----------------");
-            System.out.println(" 1. View Movies");
-            System.out.println(" 2. View Halls");
-            System.out.println(" 0. Logout");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  View Movies");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  View Halls");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Logout");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
             System.out.print("Choose an option: ");
 
             option = getValidInput(scanner, "Choose an option->  ");

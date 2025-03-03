@@ -1,7 +1,7 @@
 package User.MovieList;
 
 
-import User.SeatHall;
+
 import User.UserSelection;
 import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
