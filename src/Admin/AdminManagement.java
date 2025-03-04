@@ -1,90 +1,24 @@
-package Admin.MovieManageSystem;
+package Admin;
 
-import java.util.*;
+import User.MovieList.DisplayMovie;
 
-class Movie {
-    private int id;
-    private String title;
-    private String genre;
-    private String duration;
-    private double price;
-    private String releaseDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    public Movie(int id, String title, String genre, String duration, double price, String releaseDate) {
-        this.id = id;
-        this.title = title;
-        this.genre = genre;
-        this.duration = duration;
-        this.price = price;
-        this.releaseDate = releaseDate;
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public String getTitle(){
-        return title;
-    }
-    public void setTitle(String setTitle){
-        this.title = title;
-    }
-    public String getGenre(){
-        return genre;
-    }
-    public void setGenre(String setGenre){
-        this.genre = genre;
-    }
-    public String getDuration(){
-        return duration;
-    }
-    public void setDuration(String setDuration){
-        this.duration = duration;
-    }
-    public double getPrice(){
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    public String getReleaseDate(){
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void display() {
-        System.out.println("Movie ID: " + id + " | Title: " + title + " | Genre: " + genre + " | Duration: " + duration + " | Price: $" + price + " | Release Date: " + releaseDate);
-    }
-
-
-}
-
-class Admin {
-    private final String username = "Mike";
-    private final String password = "hashi18";
-
-    public boolean login(String user, String pass) {
-        return username.equals(user) && password.equals(pass);
-    }
-}
-
-public class MovieManagementSystem {
-    private static final List<Movie> movies = new ArrayList<>();
+public class AdminManagement {
+    private static final List<movieSystem> movies = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        Admin admin = new Admin();
+    public static void admin() {
+        admin admin = new admin();
 
         while (true) {
             System.out.print("Enter Username: ");
             String username = scanner.nextLine();
             System.out.print("Enter Password: ");
             String password = scanner.nextLine();
-            if (admin.login(username, password)) {
+            if (admin.login(username, password)) {  // Corrected login method call
                 System.out.println("Login successful! Welcome, Admin.");
                 break;
             }
@@ -93,26 +27,35 @@ public class MovieManagementSystem {
 
         int choice;
         do {
-            System.out.println("\n1. View Movies");
-            System.out.println("2. Add Movie");
-            System.out.println("3. Update Movie");
-            System.out.println("4. Delete Movie");
-            System.out.println("5. Exit");
+            System.out.println("\n1. View Users");
+            System.out.println("2. View hall and seat");
+            System.out.println("3. View Movies");
+            System.out.println("4. Add Movie");
+            System.out.println("5. Update Movie");
+            System.out.println("6. Delete Movie");
+            System.out.println("0. Exit");
             System.out.print("Enter choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
                 case 1:
-                    viewMovies();
+//                    viewUser();
                     break;
                 case 2:
-                    addMovie();
+                    seatHall.displaySeating();
                     break;
                 case 3:
-                    updateMovie();
+                    viewMovies();
+                    DisplayMovie.showMovies();
                     break;
                 case 4:
+                    addMovie();
+                    break;
+                case 5:
+                    updateMovie();
+                    break;
+                case 6:
                     deleteMovie();
                     break;
                 case 0:
@@ -125,10 +68,6 @@ public class MovieManagementSystem {
     }
 
     private static void viewMovies() {
-        if (movies.isEmpty()) {
-            System.out.println("No movies available.");
-            return;
-        }
         System.out.println("\nMovie List:");
         for (int i = 0; i < movies.size(); i++) {
             System.out.print((i + 1) + ". ");
@@ -152,7 +91,7 @@ public class MovieManagementSystem {
         System.out.print("Enter release date: ");
         String releaseDate = scanner.nextLine();
 
-        movies.add(new Movie(id, title, genre, duration, price, releaseDate));
+        movies.add(new movieSystem(id, title, genre, duration, price, releaseDate));  // Fixed class name
         System.out.println("Movie added successfully!");
         viewMovies();
     }
@@ -170,7 +109,7 @@ public class MovieManagementSystem {
             return;
         }
 
-        Movie movie = movies.get(index);
+        movieSystem movie = movies.get(index);
         System.out.print("Enter new title (leave blank to keep " + movie.getTitle() + "): ");
         String title = scanner.nextLine();
         if (!title.isEmpty()) movie.setTitle(title);
@@ -179,7 +118,7 @@ public class MovieManagementSystem {
         String genre = scanner.nextLine();
         if (!genre.isEmpty()) movie.setGenre(genre);
 
-        System.out.print("Enter new duration (leave blank to keep current" + movie.getDuration() +"): ");
+        System.out.print("Enter new duration (leave blank to keep current " + movie.getDuration() + "): ");
         String duration = scanner.nextLine();
         if (!duration.isEmpty()) movie.setDuration(duration);
 
@@ -188,7 +127,7 @@ public class MovieManagementSystem {
         scanner.nextLine();
         if (price != -1) movie.setPrice(price);
 
-        System.out.print("Enter new release date (leave blank to keep current " + movie.getReleaseDate() + " ): ");
+        System.out.print("Enter new release date (leave blank to keep current " + movie.getReleaseDate() + "): ");
         String releaseDate = scanner.nextLine();
         if (!releaseDate.isEmpty()) movie.setReleaseDate(releaseDate);
 

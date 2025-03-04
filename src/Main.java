@@ -1,6 +1,9 @@
+import Admin.AdminManagement;
 import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
+
+
 import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
@@ -8,6 +11,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        AdminManagement adminManagement = new AdminManagement();
         int option;
 
         do {
@@ -20,20 +24,14 @@ public class Main {
             System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
-            System.out.print("Enter your choice: ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = getValidInput(scanner, "Enter your choice-> ");
 
             switch (option) {
                 case 1:
                     userMenu(scanner);
                     break;
                 case 2:
-
+                    AdminManagement.admin();
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -46,6 +44,7 @@ public class Main {
         scanner.close();
     }
 
+    // ✅ User Menu
     private static void userMenu(Scanner scanner) {
         int userOption;
         do {
@@ -58,21 +57,14 @@ public class Main {
             System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
 
-            System.out.print(Ansi.ansi().fg(CYAN).a("Choose an option: ").reset());
-
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            userOption = scanner.nextInt();
-            scanner.nextLine();
+            userOption = getValidInput(scanner, "Choose an option: ");
 
             switch (userOption) {
                 case 1:
-                    UserLoginSignUp.signUp();  // ✅ Calls method from User package
                     System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
-                    System.out.println(Ansi.ansi().fg(YELLOW).a( "║               🔐 LOGIN PAGE           ║").reset());
-                    System.out.println(Ansi.ansi().fg(BLUE).a("╠══════════════════════════════════════════╣").reset());
+                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 SIGN UP PAGE          ║").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+                    UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);
                     }
@@ -91,37 +83,31 @@ public class Main {
         } while (userOption != 0);
     }
 
+
+
+    // ✅ Logged-in User Menu
     private static void loggedInMenu(Scanner scanner) {
         int option;
         SeatHall seatHall = new SeatHall();
         do {
             System.out.println("\n---------------- Logged-In Menu ----------------");
-            System.out.println(" 1. View Movies");
-            System.out.println(" 2. View Halls");
-            System.out.println(" 0. Logout");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  View Movies");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  View Halls");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Logout");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
             System.out.print("Choose an option: ");
 
-            while (!scanner.hasNextInt()) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.next();
-            }
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = getValidInput(scanner, "Choose an option->  ");
 
             switch (option) {
                 case 1:
                     DisplayMovie.showMovies();
                     break;
                 case 2:
-                    boolean viewingSeats = true;
-                    while (viewingSeats) {
-                        SeatHall.displaySeating(); // Call the display method
-                        System.out.print("Do you want to view the seating again? (yes/no): ");
-                        String choice = scanner.nextLine().trim().toLowerCase();
-                        if (choice.equals("no")) {
-                            viewingSeats = false; // Exit the loop
-                        }
-                    }
+                    SeatHall.displaySeating();
                     break;
                 case 0:
                     System.out.println("Logging out...");
@@ -130,5 +116,22 @@ public class Main {
                     System.out.println("Invalid option. Please choose again.");
             }
         } while (option != 0);
+    }
+
+    // ✅ Method to ensure valid integer input (prevents string entry)
+    private static int getValidInput(Scanner scanner, String message) {
+        int input;
+        while (true) {
+            System.out.print(message);
+            if (scanner.hasNextInt()) {
+                input = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+                break;
+            } else {
+                System.out.println("Invalid input! Please enter a valid number.");
+                scanner.next(); // Discard invalid input
+            }
+        }
+        return input;
     }
 }
