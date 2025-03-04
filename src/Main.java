@@ -1,13 +1,14 @@
 import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
-import User.SeatHall;
+import Admin.MovieManagement;
 import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        MovieManagement movieManagement = new MovieManagement();
         Scanner scanner = new Scanner(System.in);
         int option;
 
@@ -28,7 +29,7 @@ public class Main {
                     userMenu(scanner);
                     break;
                 case 2:
-
+                    movieManagement.runAdminPanel();
                     break;
                 case 0:
                     System.out.println("Exiting program...");

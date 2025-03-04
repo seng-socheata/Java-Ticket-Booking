@@ -132,20 +132,20 @@ public class UserSelection {
         double finalPrice = totalPrice - discountAmount;
 
 //        Display receipt
-        System.out.println("\n======================================");
+        System.out.println("\n========================================");
         System.out.println("           🎟️ BOOKING RECEIPT         ");
-        System.out.println("======================================");
+        System.out.println("==========================================");
         System.out.printf("🎬 Movie:     %s\n", UserSelection.selectedMovie);
         System.out.printf("📅 Date:      %s\n", UserSelection.selectedDate);
         System.out.printf("📍 Location:  %s\n", UserSelection.selectedLocation);
         System.out.printf("🕒 Time:      %s\n", UserSelection.selectedTime);
         System.out.printf("🏛 Hall:      %s\n", UserSelection.assignedHall);
         System.out.printf("💺 Seats:     %s\n", UserSelection.bookedSeats.isEmpty() ? "No seats selected" : UserSelection.bookedSeats);
-        System.out.println("--------------------------------------");
+        System.out.println("-----------------------------------------");
         System.out.printf("🎟 Total Tickets: %d\n", totalTickets);
         System.out.printf("🎟 Regular Seats: %d x $4 = $%.2f\n", regularSeats, regularSeats * regularSeatPrice);
         System.out.printf("🎟 VIP Seats:     %d x $10 = $%.2f\n", vipSeats, vipSeats * vipSeatPrice);
-        System.out.println("--------------------------------------");
+        System.out.println("-----------------------------------------");
         System.out.printf("💰 Total Price: $%.2f\n", totalPrice);
 
         if (discount > 0) {
@@ -153,9 +153,9 @@ public class UserSelection {
             System.out.printf("💲 Final Price: $%.2f\n", finalPrice);
         }
 
-        System.out.println("======================================");
+        System.out.println("=========================================");
         System.out.println("🎉 Payment successful! Enjoy your movie! 🍿");
-        System.out.println("======================================\n");
+        System.out.println("=========================================\n");
 
 
     }

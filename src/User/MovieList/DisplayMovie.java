@@ -12,7 +12,7 @@ import static org.fusesource.jansi.Ansi.Color.*;
 
 public class DisplayMovie {
 
-    private static ArrayList<Movie> movieList = new ArrayList<>();
+    public static ArrayList<Movie> movieList = new ArrayList<>();
     private static ArrayList<Movie> comingSoonMovies = new ArrayList<>();
 
 
@@ -173,10 +173,12 @@ public class DisplayMovie {
     }
 
 
-    private static String formattedDuration(int duration) {
+    public static String formattedDuration(int duration) {
         int hours = duration / 60;
         int minutes = duration % 60;
         return String.format("%dh %02dm", hours, minutes);
     }
 
+    public static void viewMovies() {
+    }
 }

@@ -46,6 +46,29 @@ public class Movie {
     public String getReleaseDate(){
         return releaseDate;
     }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setSubtitle(boolean hasSubtitle) {
+        this.hasSubtitle = hasSubtitle;
+    }
 
     public void displayMovie() {
         if (duration <= 0) { // Prevent errors
