@@ -88,11 +88,18 @@ public class Main {
         int option;
         SeatHall seatHall = new SeatHall();
         do {
-            System.out.println("\n---------------- Logged-In Menu ----------------");
-            System.out.println(" 1. View Movies");
-            System.out.println(" 2. View Halls");
-            System.out.println(" 0. Logout");
-            System.out.print("Choose an option: ");
+//            System.out.println("\n---------------- Logged-In Menu ----------------");
+//            System.out.println(" 1. View Movies");
+//            System.out.println(" 2. View Halls");
+//            System.out.println(" 0. Logout");
+//            System.out.print("Choose an option: ");
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║             🔐Logged-In Menu           ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a("║   1️⃣     │ View Movies                 ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("║   2️⃣     │ View Halls                  ║").reset());
+            System.out.println(Ansi.ansi().fg(MAGENTA).a("║   0️⃣     │ Exit System                 ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════╝").reset());
 
             option = getValidInput(scanner, "Choose an option->  ");
 

@@ -71,13 +71,14 @@ public class DisplayMovie {
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
+        int comingsoonID=1;
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
 
             // Print each movie in the table with a colored format
             System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
-                    movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
+                    comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getReleaseDate());
         }
 
