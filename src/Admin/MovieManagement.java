@@ -125,20 +125,23 @@ public class MovieManagement {
                 scanner.nextLine();
             }
         }
+        System.out.print(Ansi.ansi().fg(BLACK).a("🗣 Enter Movie Language: ").reset());
+        String language = scanner.nextLine();
 
-        System.out.print(Ansi.ansi().fg(BLACK).a("📅 Enter Release Date (YYYY-MM-DD): ").reset());
+        System.out.print(Ansi.ansi().fg(BLACK).a("📅 Enter Release Date (DD-MM-YYYY): ").reset());
         String releaseDate = scanner.nextLine();
 
         System.out.print(Ansi.ansi().fg(BLACK).a("📺 Does it have subtitles? (yes/no): ").reset());
         boolean hasSubtitle = scanner.nextLine().equalsIgnoreCase("yes");
 
         // Add new movie to the movie list (not coming soon list)
-        DisplayMovie.movieList.add(new Movie(id, title, genre, duration, rating, hasSubtitle, releaseDate));
+        DisplayMovie.movieList.add(new Movie(id, title, genre, duration, rating, hasSubtitle, language,releaseDate));
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie added successfully!").reset());
 
-        // Display only the updated Movie List (not coming soon)
+
         showMovies(true);
+
     }
     private static void updateMovie() {
         DisplayMovie.showMovies(true);

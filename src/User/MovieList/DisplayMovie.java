@@ -18,23 +18,23 @@ public class DisplayMovie {
 
     static {
 
-        movieList.add(new Movie(1, "Avatar", "Sci-Fi", 134, 8.1, true, "18-02-2025"));
-        movieList.add(new Movie(2, "Inception", "Action", 148, 8.8, true, "17-02-2025"));
-        movieList.add(new Movie(3, "Titanic", "Romance", 95, 7.8, false, "15-02-2025"));
-        movieList.add(new Movie(4, "Interstellar", "Sci-Fi", 169, 8.6, true, "15-02-2025"));
-        movieList.add(new Movie(5, "Joker", "Thriller", 122, 8.4, false, "17-02-2025"));
-        movieList.add(new Movie(6,"14th February","Horror",80,5.0,true,"18-02-2025"));
-        movieList.add(new Movie(7,"Oddity","Horror",93,5.9,false,"14-02-2025"));
-        movieList.add(new Movie(8, "Firefighter","Action",104,5.8,true,"07-02-2025"));
-        movieList.add(new Movie(9,"Her Story","Comedy",123,6.0,false,"11-02-2025"));
-        movieList.add(new Movie(10,"Undertaker","Horror",80,7.8,true,"06-02-2025"));
+        movieList.add(new Movie(1, "Avatar", "Sci-Fi", 134, 8.1, true,"France", "18-02-2025"));
+        movieList.add(new Movie(2, "Inception", "Action", 148, 8.8, true, "China","17-02-2025"));
+        movieList.add(new Movie(3, "Titanic", "Romance", 95, 7.8, false,"India", "15-02-2025"));
+        movieList.add(new Movie(4, "Interstellar", "Sci-Fi", 169, 8.6, true,"Thailand", "15-02-2025"));
+        movieList.add(new Movie(5, "Joker", "Thriller", 122, 8.4, false, "English","17-02-2025"));
+        movieList.add(new Movie(6,"14th February","Horror",80,5.0,true,"Khmer","18-02-2025"));
+        movieList.add(new Movie(7,"Oddity","Horror",93,5.9,false,"Korea","14-02-2025"));
+        movieList.add(new Movie(8, "Firefighter","Action",104,5.8,true,"Spanish","07-02-2025"));
+        movieList.add(new Movie(9,"Her Story","Comedy",123,6.0,false,"Chinese","11-02-2025"));
+        movieList.add(new Movie(10,"Undertaker","Horror",80,7.8,true,"Khmer","06-02-2025"));
 
         // Coming Soon Movies
-        comingSoonMovies.add(new Movie(11, "Guardians", "Sci-Fi", 150, 9.0, true, "01-03-2025"));
-        comingSoonMovies.add(new Movie(12, "The Flash", "Action", 145, 8.3, true, "10-03-2025"));
-        comingSoonMovies.add(new Movie(13, "Avatar 2", "Sci-Fi", 165, 8.9, true, "15-03-2025"));
-        comingSoonMovies.add(new Movie(14, " Impossible 7", "Action", 130, 8.5, false, "20-03-2025"));
-        comingSoonMovies.add(new Movie(15,"Home Sweet Hell","Horror",100,4.0,true,"25-02-2025"));
+        comingSoonMovies.add(new Movie(11, "Guardians", "Sci-Fi", 150, 9.0, true, "Chinese","01-03-2025"));
+        comingSoonMovies.add(new Movie(12, "The Flash", "Action", 145, 8.3, true, "Korea","10-03-2025"));
+        comingSoonMovies.add(new Movie(13, "Avatar 2", "Sci-Fi", 165, 8.9, true, "Khmer","15-03-2025"));
+        comingSoonMovies.add(new Movie(14, " Impossible 7", "Action", 130, 8.5, false, "Thailand","20-03-2025"));
+        comingSoonMovies.add(new Movie(15,"Home Sweet Hell","Horror",100,4.0,true,"Vietnames","25-02-2025"));
     }
 
 
@@ -42,21 +42,21 @@ public class DisplayMovie {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ MOVIE LIST ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║ %-12s ║\n").reset()),
-                "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Release Date");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
+        System.out.println(Ansi.ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
+        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+                "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Language", "Release Date");
+        System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Movies
         for (Movie movie : movieList) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? "Khmer" : "English";
 
-            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
-                    movie.getRating(), subtitleStatus, movie.getReleaseDate());
+                    movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩──────────────╝").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
 
 
 
@@ -65,10 +65,10 @@ public class DisplayMovie {
 
 
         System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("\n══════════════════════ COMING SOON MOVIES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║ %-12s ║\n").reset()),
-                "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Release Date");
-        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
+        System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+                "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Language", "Release Date");
+        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
         int comingsoonID=1;
@@ -77,13 +77,13 @@ public class DisplayMovie {
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
 
             // Print each movie in the table with a colored format
-            System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
-                    movie.getRating(), subtitleStatus, movie.getReleaseDate());
+                    movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }
 
         // Table Footer for Coming Soon Movies
-        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩──────────────╝").reset());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
         if (isAdminVeiw) {
             return;
         }
@@ -100,15 +100,15 @@ public class DisplayMovie {
 
 
 // 📅 Choose Date
-        String[] dates = {"Today (18)", "Tue (19)", "Wed (20)", "Thurs (21)"};
+        String[] dates = {"Today (18)", "Tue (19)"};
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE DATES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════╦════════════╦════════════╦════════════╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
-                "Today (18)", "Tue (19)", "Wed (20)", "Thurs (21)");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╝").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════╦════════════╗").reset());
+        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ \n").reset()),
+                "Today (18)", "Tue (19)");
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╝").reset());
 
-        System.out.print("Choose Date (Enter number 1-4)-> ");
+        System.out.print("Choose Date (Enter number 1-2)-> ");
         int dateChoice = scanner.nextInt();
 
         System.out.println("\n🎬 You have selected: " + movieList.get(movieId - 1).getTitle());

@@ -7,16 +7,23 @@ public class Movie {
     private int duration;
     private double rating;
     private boolean hasSubtitle;
+    private String language;
     private String releaseDate;
 
-    public Movie(int id, String title, String genre, int duration, double rating, boolean hasSubtitle, String releaseDate) {
+
+    public Movie(int id, String title, String genre, int duration, double rating, boolean hasSubtitle, String language, String releaseDate) {
         this.id = id;
         this.title = title;
         this.genre = genre;
         this.duration = duration;
         this.rating = rating;
         this.hasSubtitle = hasSubtitle;
+        this.language = language;
         this.releaseDate = releaseDate;
+
+    }
+    public String getLanguage(){
+        return language;
     }
 
     public int getId() {
