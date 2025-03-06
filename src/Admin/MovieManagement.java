@@ -6,6 +6,7 @@ import org.fusesource.jansi.Ansi;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -78,6 +79,7 @@ public class MovieManagement {
             }
         } while (choice != 0);
     }
+
     private static void viewMovies() {
         if (DisplayMovie.movieList.isEmpty()) {
             System.out.println(Ansi.ansi().fg(RED).a("\n❌ No movies available!").reset());
@@ -89,7 +91,7 @@ public class MovieManagement {
     }
     private static void addMovie() {
         System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════╗").reset());
-        System.out.println(Ansi.ansi().fg(YELLOW).a("║       🎬 ADD A NEW MOVIE           ║").reset());
+        System.out.println(Ansi.ansi().fg(YELLOW).a("║         🎬 ADD NEW MOVIE           ║").reset());
         System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════╝").reset());
 
         // Auto-generate unique Movie ID
@@ -143,6 +145,7 @@ public class MovieManagement {
         showMovies(true);
 
     }
+
     private static void updateMovie() {
         DisplayMovie.showMovies(true);
         if (!movies.isEmpty()) {
@@ -228,14 +231,19 @@ public class MovieManagement {
         // Confirmation message for the successful update
         System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie updated successfully!").reset());
 
-        // Show the updated movie list
+
         DisplayMovie.viewMovies();
 
 
     }
+
+
+
     private static void deleteMovie() {
         viewMovies();
-        if (!movies.isEmpty()) {
+
+
+        if (DisplayMovie.movieList.isEmpty()) {
             System.out.println(Ansi.ansi().fg(RED).a("❌ No movies available to delete.").reset());
             return;
         }
@@ -244,8 +252,10 @@ public class MovieManagement {
         System.out.println(Ansi.ansi().fg(RED).a("║        🗑 DELETE A MOVIE           ║").reset());
         System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════╝").reset());
 
-        int movieID= getValidInt("🔹 Enter Movie ID to delete: ");
+        int movieID = getValidInt("🔹 Enter Movie ID to delete: "); // Get movie ID to delete
         Movie selectedMovie = null;
+
+        // Find the movie with the given ID
         for (Movie movie : DisplayMovie.movieList) {
             if (movie.getId() == movieID) {
                 selectedMovie = movie;
@@ -258,26 +268,43 @@ public class MovieManagement {
             return;
         }
 
-        // Confirm deletion
+
         System.out.print(Ansi.ansi().fg(RED).a("\n⚠️ Are you sure you want to delete '"
                 + selectedMovie.getTitle() + "'? (yes/no): ").reset());
         String confirmation = scanner.nextLine().trim().toLowerCase();
 
         if (confirmation.equals("yes")) {
-            DisplayMovie.movieList.removeIf(movie -> movie.getId() == movieID);
-            System.out.println(Ansi.ansi().fg(GREEN).a("✅ Movie deleted successfully!").reset());
+
+            boolean removed = DisplayMovie.movieList.remove(selectedMovie);
+
+            if (removed) {
+                sortMoviesById();
+
+                renumberMovieIds();
+
+                System.out.println(Ansi.ansi().fg(GREEN).a("✅ Movie deleted successfully!").reset());
+            } else {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Failed to delete the movie!").reset());
+            }
         } else {
             System.out.println(Ansi.ansi().fg(YELLOW).a("❌ Deletion canceled.").reset());
         }
-
         viewMovies();
 
+    }
+    private static void sortMoviesById() {
+        movieList.sort(Comparator.comparingInt(Movie::getId));
+    }
+
+    private static void renumberMovieIds() {
+        for (int i = 0; i < DisplayMovie.movieList.size(); i++) {
+            DisplayMovie.movieList.get(i).setId(i + 1);
+        }
 
     }
 
 
-    // Method to get a valid integer
-    private static int getValidInt(String message) {
+        private static int getValidInt(String message) {
         int number;
         while (true) {
             System.out.print(Ansi.ansi().fg(BLACK).a(message).reset());
@@ -287,9 +314,9 @@ public class MovieManagement {
                 return number;
             } else {
                 System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid input! Please enter a valid number.").reset());
-                scanner.next(); // Clear invalid input
+                scanner.next();
             }
         }
     }
 
-}
+    }

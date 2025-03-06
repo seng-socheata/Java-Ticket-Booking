@@ -61,9 +61,6 @@ public class DisplayMovie {
 
 
 
-
-
-
         System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("\n══════════════════════ COMING SOON MOVIES ══════════════════════").reset());
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
         System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
@@ -84,6 +81,7 @@ public class DisplayMovie {
 
         // Table Footer for Coming Soon Movies
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
+
         if (isAdminVeiw) {
             return;
         }
@@ -124,10 +122,10 @@ public class DisplayMovie {
         };
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE LOCATIONS & TIMES ══════════════════════").reset());
-        System.out.println("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗");
+        System.out.println(Ansi.ansi().fg(MAGENTA).a("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗").reset());
         System.out.printf("║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║\n",
                 "Location", "Time 1", "Time 2", "Time 3", "Time 4", "Time 5");
-        System.out.println("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣");
+        System.out.println(Ansi.ansi().fg(MAGENTA).a("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣").reset());
 
 // Display locations
         for (String[] location : locations) {
@@ -154,7 +152,7 @@ public class DisplayMovie {
         UserSelection.selectedTime = locations[locationChoice - 1][timeChoice];
 
 
-        System.out.println("\n🎬 You have selected: " + selectedMovie);
+        System.out.println("\n🎬 Movie: " + selectedMovie);
         System.out.println("\uD83C\uDFDB Hall: "+ UserSelection.assignedHall);
         System.out.println("📅 Date: " + UserSelection.selectedDate);
         System.out.println("📍 Location: " + UserSelection.selectedLocation);
