@@ -1,12 +1,9 @@
 package User.MovieList;
-
-
 import User.SeatHall;
 import User.UserSelection;
 import org.fusesource.jansi.Ansi;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import static User.UserSelection.selectedMovie;
 import static org.fusesource.jansi.Ansi.Color.*;
 
@@ -68,13 +65,13 @@ public class DisplayMovie {
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
-        int comingsoonID=1;
+        char comingsoonID='a';
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
 
             // Print each movie in the table with a colored format
-            System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2c ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }

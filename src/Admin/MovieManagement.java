@@ -5,6 +5,7 @@ import User.MovieList.Movie;
 import org.fusesource.jansi.Ansi;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -226,16 +227,13 @@ public class MovieManagement {
         String subtitleInput = scanner.nextLine();
         if (!subtitleInput.trim().isEmpty()) {
             selectedMovie.setSubtitle(subtitleInput.equalsIgnoreCase("yes"));
+
         }
 
-        // Confirmation message for the successful update
         System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie updated successfully!").reset());
 
-
-        DisplayMovie.viewMovies();
-
-
     }
+
 
 
 
@@ -262,6 +260,7 @@ public class MovieManagement {
                 break;
             }
         }
+
 
         if (selectedMovie == null) {
             System.out.println(Ansi.ansi().fg(RED).a("❌ Movie ID not found!").reset());
@@ -302,7 +301,6 @@ public class MovieManagement {
         }
 
     }
-
 
         private static int getValidInt(String message) {
         int number;

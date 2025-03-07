@@ -1,7 +1,17 @@
 package User;
 
 import User.MovieList.DisplayMovie;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.fusesource.jansi.Ansi;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
@@ -10,6 +20,8 @@ import static org.fusesource.jansi.Ansi.Color.GREEN;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class UserSelection {
@@ -156,8 +168,98 @@ public class UserSelection {
         System.out.println("=========================================");
         System.out.println("🎉 Payment successful! Enjoy your movie! 🍿");
         System.out.println("=========================================\n");
+        System.out.print(" Do you pay by scan QR? (yes/no): ");
+        String paymentChoice = scanner.nextLine().trim().toLowerCase();
+
+        if (paymentChoice.equals("yes")) {
+            showQRCode();
+        } else {
+            System.out.println("You choose to pay in cash.");
+        }
+
+    }
 
 
+    public static void showQRCode() {
+        String qrData = "00020101021229200016hor_vanlida@aclb520459995802KH5911Hor Vanlida6010Phnom Penh991700131741360775515541100000000000530384062460109TRX12345602090772122530306Cinema0706POS-0263049412";  // The data you want to encode
+
+        try {
+            // Generate the QR code matrix
+            BitMatrix bitMatrix = generateQRCodeMatrix(qrData, 200, 200);
+
+            // Convert BitMatrix to BufferedImage
+            BufferedImage qrCodeImage = convertToImage(bitMatrix);
+
+            // Display the QR code in the existing JFrame
+            displayQRCodeInFrame(qrCodeImage);
+        } catch (WriterException e) {
+            System.out.println("Error generating QR code: " + e.getMessage());
+        }
+    }
+
+
+
+    private static BitMatrix generateQRCodeMatrix(String data, int width, int height) throws WriterException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+        hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);  // Medium error correction
+
+        return qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, width, height, hintMap);
+    }
+
+    private static BufferedImage convertToImage(BitMatrix bitMatrix) {
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                // Set black or white pixels based on the bit matrix
+                int rgb = bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF; // Black or White
+                bufferedImage.setRGB(x, y, rgb);
+            }
+        }
+
+        return bufferedImage;
+    }
+
+    private static void displayQRCodeInFrame(BufferedImage qrCodeImage) {
+        // Assuming you already have a JFrame with a JPanel to display content
+        JFrame mainFrame = new JFrame("Scan Here");
+        mainFrame.setLayout(new FlowLayout());
+        mainFrame.setSize(400, 400);  // Adjust the size to your needs
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Convert BufferedImage to ImageIcon for display in JLabel
+        ImageIcon qrCodeIcon = new ImageIcon(qrCodeImage);
+
+        // JLabel to display the QR code image
+        JLabel qrCodeLabel = new JLabel(qrCodeIcon);
+
+        // Add the QR code JLabel to the JFrame
+        mainFrame.add(qrCodeLabel);
+
+        // Make the JFrame visible
+        mainFrame.setVisible(true);
+    }
+
+    private static BufferedImage generateQRCodeImage(String data, int width, int height) throws WriterException {
+        Map<EncodeHintType, Object> hintMap = new HashMap<>();
+        hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);  // Medium error correction
+
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, width, height, hintMap);
+
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int rgb = bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF; // Black or White
+                bufferedImage.setRGB(x, y, rgb);
+            }
+        }
+        return bufferedImage;
     }
 }
 

@@ -124,11 +124,11 @@ public class Main {
             System.out.print(message);
             if (scanner.hasNextInt()) {
                 input = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();
                 break;
             } else {
                 System.out.println("Invalid input! Please enter a valid number.");
-                scanner.next(); // Discard invalid input
+                scanner.next();
             }
         }
         return input;
