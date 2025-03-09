@@ -1,148 +1,342 @@
 package Admin;
 
+import MVC.Config.Database;
+import Users.MovieList.DisplayMovie;
+import Users.MovieList.Movie;
+import org.fusesource.jansi.Ansi;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import static Users.MovieList.DisplayMovie.*;
+import static org.fusesource.jansi.Ansi.Color.*;
 
 public class MovieManagement {
     private static final List<movieSystem> movies = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
 
     public void runAdminPanel() {
-        admin adminn = new admin();  // Corrected class name
+        admin adminn = new admin();
 
         while (true) {
-            System.out.print("Enter Username: ");
-            String username = scanner.nextLine();
-            System.out.print("Enter Password: ");
-            String password = scanner.nextLine();
-            if (admin.login(username, password)) {  // Corrected login method call
-                System.out.println("Login successful! Welcome, Admin.");
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 LOGIN                     ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
+
+            System.out.print(Ansi.ansi().fg(CYAN).a("👤 Enter Username: ").reset());
+            String username = new java.util.Scanner(System.in).nextLine();
+
+            System.out.print(Ansi.ansi().fg(GREEN).a("🔑 Enter Password: ").reset());
+            String password = new java.util.Scanner(System.in).nextLine();
+
+            if (admin.login(username, password)) {
+                System.out.println(Ansi.ansi().fg(GREEN).a("✅ Login successful! Welcome, Admin.").reset());
                 break;
             }
-            System.out.println("Invalid credentials!");
+            System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid credentials! Please try again.").reset());
         }
 
         int choice;
         do {
-            System.out.println("\n1. View Movies");
-            System.out.println("2. Add Movie");
-            System.out.println("3. Update Movie");
-            System.out.println("4. Delete Movie");
-            System.out.println("0. Exit");  // Fixed exit option
-            System.out.print("Enter choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║        🎬 MOVIE MANAGEMENT MENU        ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a("║  Option  │        Description          ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a("║   1️⃣     │ View Movies                 ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("║   2️⃣     │ Add a New Movie             ║").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║   3️⃣     │ Update Movie Details        ║").reset());
+            System.out.println(Ansi.ansi().fg(RED).a("║   4️⃣     │ Delete a Movie              ║").reset());
+            System.out.println(Ansi.ansi().fg(MAGENTA).a("║   0️⃣     │ Exit System                 ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════╝").reset());
 
+            choice = getValidInt("🔹 Enter your choice-> ");
             switch (choice) {
                 case 1:
+                    System.out.println(Ansi.ansi().fg(CYAN).a("📽 Viewing Movies...").reset());
                     viewMovies();
                     break;
                 case 2:
+                    System.out.println(Ansi.ansi().fg(GREEN).a("🎬 Adding a New Movie...").reset());
                     addMovie();
+
                     break;
                 case 3:
+                    System.out.println(Ansi.ansi().fg(YELLOW).a("✏️ Updating Movie Details...").reset());
                     updateMovie();
                     break;
                 case 4:
+                    System.out.println(Ansi.ansi().fg(RED).a("🗑 Deleting Movie...").reset());
                     deleteMovie();
                     break;
                 case 0:
-                    System.out.println("Exiting system...");
+                    System.out.println(Ansi.ansi().fg(MAGENTA).a("🚪 Exiting System...").reset());
                     break;
                 default:
-                    System.out.println("Invalid choice. Try again.");
+                    System.out.println(Ansi.ansi().fg(RED).a("⚠️ Invalid choice! Please try again.").reset());
             }
         } while (choice != 0);
     }
 
+
+
+
+
+
+
     private static void viewMovies() {
-        if (movies.isEmpty()) {
-            System.out.println("No movies available.");
+        if (DisplayMovie.movieList.isEmpty()) {
+            System.out.println(Ansi.ansi().fg(RED).a("\n❌ No movies available!").reset());
             return;
         }
-        System.out.println("\nMovie List:");
-        for (int i = 0; i < movies.size(); i++) {
-            System.out.print((i + 1) + ". ");
-            movies.get(i).display();
-        }
+        DisplayMovie.showMovies(true);
     }
+
 
     private static void addMovie() {
-        System.out.print("Enter movie ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter movie title: ");
-        String title = scanner.nextLine();
-        System.out.print("Enter genre: ");
-        String genre = scanner.nextLine();
-        System.out.print("Enter duration: ");
-        String duration = scanner.nextLine();
-        System.out.print("Enter price: ");
-        double price = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.print("Enter release date: ");
-        String releaseDate = scanner.nextLine();
+        System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════╗").reset());
+        System.out.println(Ansi.ansi().fg(YELLOW).a("║         🎬 ADD NEW MOVIE           ║").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════╝").reset());
 
-        movies.add(new movieSystem(id, title, genre, duration, price, releaseDate));  // Fixed class name
-        System.out.println("Movie added successfully!");
-        viewMovies();
+        // Auto-generate unique Movie ID
+        int id = DisplayMovie.movieList.size() + 1;
+        System.out.print(Ansi.ansi().fg(BLACK).a("🎬 Enter Movie Title: ").reset());
+        String title = scanner.nextLine();
+        System.out.print(Ansi.ansi().fg(BLACK).a("🎭 Enter Genre: ").reset());
+        String genre = scanner.nextLine();
+        int duration;
+        while (true) {
+            System.out.print(Ansi.ansi().fg(BLACK).a("⏳ Enter Duration (minutes): ").reset());
+              if (scanner.hasNextInt()) {
+                  duration = scanner.nextInt();
+                  scanner.nextLine();
+               break;
+            } else {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid input! Please enter a valid duration in minutes.").reset());
+                scanner.nextLine();
+            }
+        }
+
+        double rating;
+        while (true) {
+            System.out.print(Ansi.ansi().fg(BLACK).a("⭐️ Enter Movie Rating (e.g., 8.5): ").reset());
+              if (scanner.hasNextDouble()) {
+                rating = scanner.nextDouble();
+                scanner.nextLine();
+                break;
+            } else {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid input! Please enter a valid rating.").reset());
+                scanner.nextLine();
+            }
+        }
+              System.out.print(Ansi.ansi().fg(BLACK).a("🗣 Enter Movie Language: ").reset());
+              String language = scanner.nextLine();
+              System.out.print(Ansi.ansi().fg(BLACK).a("📅 Enter Release Date (DD-MM-YYYY): ").reset());
+              String releaseDate = scanner.nextLine();
+              System.out.print(Ansi.ansi().fg(BLACK).a("📺 Does it have subtitles? (yes/no): ").reset());
+              boolean hasSubtitle = scanner.nextLine().equalsIgnoreCase("yes");
+
+        // Add new movie to the movie list (not coming soon list)
+        DisplayMovie.movieList.add(new Movie(id, title, genre, duration, rating, hasSubtitle, language, releaseDate));
+        System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie added successfully!").reset());
+        // put it in showMovie
+       showMovies(true);
+        addMovieToDB(title, genre, duration, rating, hasSubtitle, language, releaseDate);
+    }
+    // add database
+        public static void addMovieToDB(String title, String genre, int duration, double rating, boolean hasSubtitle, String language, String releaseDate ){
+        String sql = "INSERT INTO movies (title, genre, duration, rating, language, release_date, subtitle) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        //calling
+            String formattedDate = convertDateFormat(releaseDate);
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, title);
+            stmt.setString(2, genre);
+            stmt.setInt(3, duration);
+            stmt.setDouble(4, rating);
+            stmt.setString(5, language);
+            stmt.setDate(6, java.sql.Date.valueOf(formattedDate));
+            stmt.setBoolean(7, hasSubtitle);
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("\n✅ Movie added successfully to Database!");
+            } else {
+                System.out.println("\n❌ Failed to add movie.");
+            }
+        } catch (SQLException e) {
+            System.out.println("\n❌ Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        }
+    public static String convertDateFormat(String date) {
+        try {
+            String[] parts = date.split("-");
+            return parts[2] + "-" + parts[1] + "-" + parts[0];  // Convert DD-MM-YYYY → YYYY-MM-DD
+        } catch (Exception e) {
+            System.out.println("❌ Error converting date: " + date);
+            return "0000-00-00"; // Return an invalid date to catch errors
+        }
     }
 
+
     private static void updateMovie() {
-        viewMovies();
-        if (movies.isEmpty()) return;
-
-        System.out.print("Enter movie number to update: ");
-        int index = scanner.nextInt() - 1;
-        scanner.nextLine();
-
-        if (index < 0 || index >= movies.size()) {
-            System.out.println("Invalid selection.");
+        DisplayMovie.showMovies(true);
+          if (!movies.isEmpty()) {
+            System.out.println(Ansi.ansi().fg(RED).a("❌ No movies available to update.").reset());
             return;
         }
 
-        movieSystem movie = movies.get(index);
-        System.out.print("Enter new title (leave blank to keep " + movie.getTitle() + "): ");
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║       ✏️ UPDATE MOVIE DETAILS      ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════╝").reset());
+
+              int movieID = getValidInt("🔹 Enter Movie ID to Update: ");
+
+                 Movie selectedMovie = null;
+                   for (Movie movie : DisplayMovie.movieList) {
+                     if (movie.getId() == movieID) {
+                        selectedMovie = movie;
+                     break;
+            }
+        }
+
+           if (selectedMovie == null) {
+               System.out.println(Ansi.ansi().fg(RED).a("❌ Movie ID not found!").reset());
+                 return;
+        }
+
+        System.out.println(Ansi.ansi().fg(CYAN).a("🎬 Current Details:").reset());
+        System.out.println("Title: " + selectedMovie.getTitle());
+        System.out.println("Genre: " + selectedMovie.getGenre());
+        System.out.println("Duration: " + selectedMovie.getDuration() + " minutes");
+        System.out.println("Rating: " + selectedMovie.getRating());
+        System.out.println("Release Date: " + selectedMovie.getReleaseDate());
+        System.out.println("Subtitles: " + (selectedMovie.hasSubtitle() ? "Yes" : "No"));
+
+        System.out.print(Ansi.ansi().fg(GREEN).a("🎬 Enter new Title (Current: " + selectedMovie.getTitle() + "): ").reset());
         String title = scanner.nextLine();
-        if (!title.isEmpty()) movie.setTitle(title);
+        if (!title.trim().isEmpty()) {
+            selectedMovie.setTitle(title);
+        }
 
-        System.out.print("Enter new genre (leave blank to keep current " + movie.getGenre() + "): ");
+        System.out.print(Ansi.ansi().fg(YELLOW).a("🎭 Enter new Genre (Current: " + selectedMovie.getGenre() + "): ").reset());
         String genre = scanner.nextLine();
-        if (!genre.isEmpty()) movie.setGenre(genre);
+        if (!genre.trim().isEmpty()) {
+            selectedMovie.setGenre(genre);
+        }
 
-        System.out.print("Enter new duration (leave blank to keep current " + movie.getDuration() + "): ");
-        String duration = scanner.nextLine();
-        if (!duration.isEmpty()) movie.setDuration(duration);
+        System.out.print(Ansi.ansi().fg(MAGENTA).a("⏳ Enter new Duration (Current: " + selectedMovie.getDuration() + " minutes): ").reset());
+        String durationInput = scanner.nextLine();
+        if (!durationInput.trim().isEmpty()) {
+            try {
+                int newDuration = Integer.parseInt(durationInput);
+                selectedMovie.setDuration(newDuration);
+            } catch (NumberFormatException e) {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid duration format! Skipping update.").reset());
+            }
+        }
 
-        System.out.print("Enter new price (or -1 to keep current " + movie.getPrice() + "): ");
-        double price = scanner.nextDouble();
-        scanner.nextLine();
-        if (price != -1) movie.setPrice(price);
+        System.out.print(Ansi.ansi().fg(CYAN).a("⭐️ Enter new Rating (Current: " + selectedMovie.getRating() + "): ").reset());
+        String ratingInput = scanner.nextLine();
+        if (!ratingInput.trim().isEmpty()) {
+            try {
+                double newRating = Double.parseDouble(ratingInput);
+                selectedMovie.setRating(newRating);
+            } catch (NumberFormatException e) {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid rating format! Skipping update.").reset());
+            }
+        }
 
-        System.out.print("Enter new release date (leave blank to keep current " + movie.getReleaseDate() + "): ");
+        System.out.print(Ansi.ansi().fg(GREEN).a("📅 Enter new Release Date (Current: " + selectedMovie.getReleaseDate() + "): ").reset());
         String releaseDate = scanner.nextLine();
-        if (!releaseDate.isEmpty()) movie.setReleaseDate(releaseDate);
+        if (!releaseDate.trim().isEmpty()) {
+            selectedMovie.setReleaseDate(releaseDate);
+        }
 
-        System.out.println("Movie updated successfully!");
-        viewMovies();
+        System.out.print(Ansi.ansi().fg(BLACK).a("📺 Does it have subtitles? (yes/no, Current: " + (selectedMovie.hasSubtitle() ? "Yes" : "No") + "): ").reset());
+        String subtitleInput = scanner.nextLine();
+        if (!subtitleInput.trim().isEmpty()) {
+            selectedMovie.setSubtitle(subtitleInput.equalsIgnoreCase("yes"));
+        }
+        System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie updated successfully!").reset());
+        DisplayMovie.viewMovies();
     }
+
 
     private static void deleteMovie() {
         viewMovies();
-        if (movies.isEmpty()) return;
 
-        System.out.print("Enter movie number to delete: ");
-        int index = scanner.nextInt() - 1;
-        scanner.nextLine();
+        if (DisplayMovie.movieList.isEmpty()) {
+            System.out.println(Ansi.ansi().fg(RED).a("❌ No movies available to delete.").reset());
+            return;
+        }
+        System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════╗").reset());
+        System.out.println(Ansi.ansi().fg(RED).a("║        🗑 DELETE A MOVIE           ║").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════╝").reset());
 
-        if (index < 0 || index >= movies.size()) {
-            System.out.println("Invalid selection.");
+        int movieID = getValidInt("🔹 Enter Movie ID to delete: ");
+        Movie selectedMovie = null;
+
+        // Find the movie with the given ID
+        for (Movie movie : DisplayMovie.movieList) {
+            if (movie.getId() == movieID) {
+                selectedMovie = movie;
+                break;
+            }
+        }
+
+        if (selectedMovie == null) {
+            System.out.println(Ansi.ansi().fg(RED).a("❌ Movie ID not found!").reset());
             return;
         }
 
-        movies.remove(index);
-        System.out.println("Movie deleted successfully!");
+        System.out.print(Ansi.ansi().fg(RED).a("\n⚠️ Are you sure you want to delete '"
+                + selectedMovie.getTitle() + "'? (yes/no): ").reset());
+        String confirmation = scanner.nextLine().trim().toLowerCase();
+
+        if (confirmation.equals("yes")) {
+            boolean removed = DisplayMovie.movieList.remove(selectedMovie);
+            if (removed) {
+                sortMoviesById();
+                renumberMovieIds();
+                System.out.println(Ansi.ansi().fg(GREEN).a("✅ Movie deleted successfully!").reset());
+            } else {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Failed to delete the movie!").reset());
+            }
+        } else {
+            System.out.println(Ansi.ansi().fg(YELLOW).a("❌ Deletion canceled.").reset());
+        }
         viewMovies();
+    }
+
+    private static void sortMoviesById() {
+        movieList.sort(Comparator.comparingInt(Movie::getId));
+    }
+
+    private static void renumberMovieIds() {
+        for (int i = 0; i < DisplayMovie.movieList.size(); i++) {
+            DisplayMovie.movieList.get(i).setId(i + 1);
+        }
+    }
+
+    private static int getValidInt(String message) {
+        int number;
+        while (true) {
+            System.out.print(Ansi.ansi().fg(BLACK).a(message).reset());
+            if (scanner.hasNextInt()) {
+                number = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                return number;
+            } else {
+                System.out.println(Ansi.ansi().fg(RED).a("❌ Invalid input! Please enter a valid number.").reset());
+                scanner.next();
+            }
+        }
     }
 }

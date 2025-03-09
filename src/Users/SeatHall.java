@@ -1,7 +1,14 @@
-package User;
+package Users;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import MVC.Config.Database;
+import Users.UserSelection;
+import org.fusesource.jansi.Ansi;
+import static org.fusesource.jansi.Ansi.Color.*;
 
 public class SeatHall {
     private static final int rows = 10;
@@ -18,21 +25,35 @@ public class SeatHall {
         initializeSeats();
     }
 
-
     private void initializeSeats() {
         char rowLabel = 'J';
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                seats[i][j] = rowLabel + String.valueOf(j + 1) + "-AV"; // AV = Available
+                seats[i][j] = rowLabel + String.valueOf(j + 1) + "-AV";
             }
             rowLabel--;
         }
 
-        // Fill VIP seats in pairs (VIP1-VIP2, VIP3-VIP4, etc.)
         for (int j = 0; j < cols; j += 2) {
             seats[rows][j] = VIP_COLOR + "VIP" + (j + 1) + "-" + "VIP" + (j + 2) + RESET;
-            seats[rows][j + 1] = ""; // Empty, since it's part of the pair
+            seats[rows][j + 1] = "";
         }
+    }
+
+
+    public static void resetSeating() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                seats[i][j] = (char) ('J' - i) + String.valueOf(j + 1) + "-AV";
+            }
+        }
+
+        for (int j = 0; j < cols; j += 2) {
+            seats[rows][j] = VIP_COLOR + "VIP" + (j + 1) + "-" + "VIP" + (j + 2) + RESET;
+            seats[rows][j + 1] = "";
+        }
+        bookedSeats.clear();
+        UserSelection.bookedSeats.clear();
     }
 
     public static void displaySeating() {
@@ -47,7 +68,7 @@ public class SeatHall {
             for (int j = 0; j < cols; j++) {
                 String seat = seats[i][j];
                 String displaySeat = REGULAR_COLOR + seat + RESET;
-                System.out.printf(" %-11s ║", displaySeat); // Uniform width for seats
+                System.out.printf(" %-11s ║", displaySeat);
             }
             System.out.println();
             System.out.println("╠════════════════════════════════════════════════════════════════════════════════════════╣");
@@ -55,10 +76,10 @@ public class SeatHall {
 
         // Display VIP row
         System.out.print("║ VIP  ║ ");
-        for (int j = 0; j < cols; j += 2) { // Pairing VIP seats
+        for (int j = 0; j < cols; j += 2) {
             if (!seats[rows][j].isEmpty()) {
                 String vipPair = "💜 " + seats[rows][j] + (j + 1 < cols && !seats[rows][j + 1].isEmpty() ? "-💜 " + seats[rows][j + 1] : "");
-                System.out.printf(" %-20s  ║", vipPair); // Wider space for VIP pairs
+                System.out.printf(" %-20s  ║", vipPair);
             }
         }
         System.out.println();
@@ -66,16 +87,41 @@ public class SeatHall {
         System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
+
     public static void bookSeats() {
         Scanner scanner = new Scanner(System.in);
         boolean bookingMore = true;
 
         while (bookingMore) {
-            System.out.print("Enter row (VIP-A) -> ");
-            String rowInput = scanner.next().toUpperCase();
+            String rowInput;
+            int colInput;
 
-            System.out.print("Enter column -> ");
-            int colInput = scanner.nextInt() - 1;
+            while (true) {
+                System.out.print("Enter row (VIP, A-J) -> ");
+                rowInput = scanner.next().toUpperCase();
+
+                if (rowInput.equals("VIP") || rowInput.matches("[A-J]")) {
+                    break;
+                } else {
+                    System.out.println("❌ Invalid row! Please enter 'VIP' or a letter between A and J.");
+                }
+            }
+
+            while (true) {
+                System.out.print("Enter column (1-10) -> ");
+                if (scanner.hasNextInt()) {
+                    colInput = scanner.nextInt();
+                    if (colInput >= 1 && colInput <= 10) {
+                        colInput -= 1;
+                        break;
+                    } else {
+                        System.out.println("❌ Invalid column! Please enter a number between 1 and 10.");
+                    }
+                } else {
+                    System.out.println("❌ Invalid input! Please enter a number.");
+                    scanner.next(); // Clear invalid input
+                }
+            }
 
             if (rowInput.equals("VIP")) {
                 if (colInput % 2 == 0 && colInput < cols - 1) {
@@ -85,15 +131,17 @@ public class SeatHall {
                         seats[rows][colInput] = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2) + "-BK";
                         String vipSeatPair = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2);
                         bookedSeats.add(vipSeatPair);
-                        UserSelection.bookedSeats.add(vipSeatPair); // ✅ FIX: Add VIP seats to receipt list
-
+                        UserSelection.bookedSeats.add(vipSeatPair);
+                       // add database
+                        addBookingToDB( UserSelection.selectedMovie, "VIP", colInput + 1, vipSeatPair, true);
                         System.out.println("✅ VIP seats " + vipSeatPair + " booked successfully!");
                     }
                 } else {
                     System.out.println("⚠️ Please enter the first seat number in the VIP pair (e.g., VIP1, VIP3, etc.).");
                 }
-//
-            } else {
+
+            }
+            else {
                 int rowIndex = 'J' - rowInput.charAt(0);
                 if (rowIndex >= 0 && rowIndex < rows && colInput >= 0 && colInput < cols) {
                     if (seats[rowIndex][colInput].contains("BK")) {
@@ -101,6 +149,8 @@ public class SeatHall {
                     } else {
                         seats[rowIndex][colInput] = rowInput + (colInput + 1) + "-BK";
                         bookedSeats.add(rowInput + (colInput + 1));
+
+                        addBookingToDB(UserSelection.selectedMovie, rowInput, colInput + 1, rowInput + (colInput + 1), false);
                         System.out.println("✅ Seat " + rowInput + (colInput + 1) + " booked successfully!");
                     }
                 } else {
@@ -113,15 +163,39 @@ public class SeatHall {
             bookingMore = scanner.next().equalsIgnoreCase("YES");
         }
 
-
     }
-    public static void printReceipt() {
 
+    // Method to add booking to the database
+    public static void addBookingToDB(String movieName, String row, int columnNumber, String seatLabel, boolean isVip) {
+        String sql = "INSERT INTO booking (movie_name, row, column_number, seat_label, is_vip, booked_at) " +
+                "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, movieName);
+            stmt.setString(2, row);
+            stmt.setInt(3, columnNumber);
+            stmt.setString(4, seatLabel);
+            stmt.setBoolean(5, isVip);
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("✅ Seat " + seatLabel + " booked successfully in database!");
+            } else {
+                System.out.println("❌ Failed to book the seat in the database.");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+    public static void printReceipt() {
         UserSelection.displaySummary();
 
     }
 }
-
-
-
-

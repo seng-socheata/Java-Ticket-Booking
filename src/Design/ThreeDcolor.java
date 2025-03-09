@@ -1,48 +1,36 @@
 package Design;
 
-import com.github.lalyos.jfiglet.FigletFont;
-
 public class ThreeDcolor {
-    // ANSI color codes
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String BLUE = "\u001B[34m";
-    public static final String CYAN = "\u001B[36m";
-    public static final String MAGENTA = "\u001B[35m";
-    public static final String WHITE = "\u001B[37m";
+    public static void main(String[] args) throws InterruptedException {
+        String text = "\\033[1m" +  // Bold Blue
+                """
+                 _       __     __                             __           ____              __   _                _______      __        __     _____            __               
+                | |     / /__  / /________  ____ ___  ___     / /_____     / __ )____  ____  / /__(_)___  ____ _   /_  __(_)____/ /_____  / /_   / ___/__  _______/ /____  ____ ___ 
+                | | /| / / _ \\/ / ___/ __ \\/ __ `__ \\/ _ \\   / __/ __ \\   / __  / __ \\/ __ \\/ //_/ / __ \\/ __ `/    / / / / ___/ //_/ _ \\/ __/   \\__ \\/ / / / ___/ __/ _ \\/ __ `__ \\
+                | |/ |/ /  __/ / /__/ /_/ / / / / / /  __/  / /_/ /_/ /  / /_/ / /_/ / /_/ / ,< / / / / / /_/ /    / / / / /__/ ,< /  __/ /_    ___/ / /_/ (__  ) /_/  __/ / / / / /
+                |__/|__/\\___/_/\\___/\\____/_/ /_/ /_/\\___/   \\__/\\____/  /_____/___/\\____/_/|_/_/_/ /_/\\__, /    /_/ /_/\\___/_/|_|\\___/\\__/   /____/\\__, /____/\\__/\\___/_/ /_/ /_/ 
+                                                                                               /____/                                       /____/                           
+                """ + "\\033[1m"; // Reset color
 
-    public static void main(String[] args) {
-        try {
-            // Generate ASCII art
-            String ascii = FigletFont.convertOneLine("ISTAD");
+        System.out.println(text);
 
-            // Center the ASCII art in the terminal with a box
-            printBox(ascii, GREEN, CYAN);
+        Thread.sleep(2000); // Pause for 2 seconds
+        clearConsole(); // Clear screen
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.println(text); // Reprint after clearing screen
     }
 
-    // Method to center text and add a box
-    public static void printBox(String text, String textColor, String boxColor) {
-        String[] lines = text.split("\n");
-        int consoleWidth = 180; // Adjust this value based on your terminal width
-        int boxWidth = consoleWidth - 10;
-
-        // Top border
-        System.out.println(boxColor + "╔" + "═".repeat(boxWidth) + "╗" + RESET);
-
-        // Print each line inside the box, centered
-        for (String line : lines) {
-            int padding = (boxWidth - line.length()) / 2;
-            if (padding < 0) padding = 0; // Prevent negative padding
-            System.out.println(boxColor + "║" + " ".repeat(padding) + textColor + line + " ".repeat(padding) + boxColor + "║" + RESET);
+    // Method to clear the console screen
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("Error clearing console.");
         }
-
-        // Bottom border
-        System.out.println(boxColor + "╚" + "═".repeat(boxWidth) + "╝" + RESET);
     }
 }
