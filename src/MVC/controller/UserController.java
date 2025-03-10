@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 public class UserController {
 
-    // Insert a new user into the database
     public static void addUser(User user) {
         String sql = "INSERT INTO users (username, first_name, last_name, email, phone_number, password_hash) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -31,7 +30,6 @@ public class UserController {
         }
     }
 
-    // Retrieve a user by email
     public static User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = Database.getConnection();

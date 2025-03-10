@@ -1,6 +1,4 @@
 package MVC.view;
-
-
 import MVC.model.User;
 
 public class Userview {

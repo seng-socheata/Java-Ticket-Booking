@@ -1,18 +1,13 @@
 package MVC;
 
-
 import MVC.model.User;
 import MVC.controller.UserController;
-
-
 import java.util.Scanner;
 
 
 public class MainD {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-
         while (true) {
             System.out.println("\n===== User Management System =====");
             System.out.println("1. Add User");
@@ -22,7 +17,7 @@ public class MainD {
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
