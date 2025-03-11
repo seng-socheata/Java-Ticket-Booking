@@ -203,30 +203,31 @@ public class UserSelection {
 
         addPaymentToDB(selectedMovie, totalTickets, regularSeats, vipSeats, regularSeatPrice, vipSeatPrice,
                 totalPrice, discount, discountAmount, finalPrice);
-        System.out.print(" Do you pay by scan QR? (yes/no): ");
+
+        System.out.print(" Do you want to pay by scanning the QR code? (yes): ");
         String paymentChoice = scanner.nextLine().trim().toLowerCase();
         if (paymentChoice.equals("yes")) {
             showQRCode();
-        } else {
-            System.out.println("You choose to pay in cash.");
+
+            String topBorder = "╔═════════════════════════════════════════════════════╗";
+            String bottomBorder = "╚═════════════════════════════════════════════════════╝";
+
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a(topBorder));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
+            System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║   🎉Payment successful! Enjoy your movie!🍿         ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a(bottomBorder));
         }
-
-        String topBorder = "╔═════════════════════════════════════════════════════╗";
-        String bottomBorder = "╚═════════════════════════════════════════════════════╝";
-
-        System.out.println(ansi().fg(Ansi.Color.GREEN).a(topBorder));
-        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
-        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║   🎉Payment successful! Enjoy your movie!🍿         ║"));
-        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
-        System.out.println(ansi().fg(Ansi.Color.GREEN).a(bottomBorder));
-
+        else {
+            System.out.println(ansi().fg(Ansi.Color.RED).a("⚠️ Your booking is pending payment. Make sure to pay before your movie time!"));
+        }
     }
     public static void showQRCode() {
         String qrData = "00020101021229200016hor_vanlida@aclb520459995802KH5911Hor Vanlida6010Phnom Penh991700131741360775515541100000000000530384062460109TRX12345602090772122530306Cinema0706POS-0263049412";  // The data you want to encode
 
         try {
 
-            BitMatrix bitMatrix = generateQRCodeMatrix(qrData, 200, 200);
+            BitMatrix bitMatrix = generateQRCodeMatrix(qrData, 300, 300);
             BufferedImage qrCodeImage = convertToImage(bitMatrix);
             displayQRCodeInFrame(qrCodeImage);
         } catch (WriterException e) {

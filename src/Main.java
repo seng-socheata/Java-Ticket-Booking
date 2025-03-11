@@ -15,13 +15,13 @@ public class Main {
 
         do {
             System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ MAIN MENU ════════════════════════").reset());
-            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  User");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  Admin");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "1.  User");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "2.  Admin");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-54s ║\n").reset()), "0.  Exit");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
 
             option = getValidInput(scanner, "Enter your choice-> ");
 
@@ -47,13 +47,13 @@ public class Main {
         int userOption;
         do {
             System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ USER MENU ════════════════════════").reset());
-            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  Sign Up");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  Login");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Exit");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════════════════════════════════╗").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "1.  Sign Up");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "2.  Login");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
+            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-54s ║\n").reset()), "0.  Exit");
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
 
             userOption = getValidInput(scanner, "Choose an option: ");
 
