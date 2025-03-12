@@ -1,4 +1,4 @@
-package Admin;
+package controller;
 
 class movieSystem {
     private int id;

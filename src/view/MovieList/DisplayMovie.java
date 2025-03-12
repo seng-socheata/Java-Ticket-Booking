@@ -1,15 +1,18 @@
-package User.MovieList;
+package view.MovieList;
 
 
 import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.AnsiConsole;
+import view.UserSelection;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.fusesource.jansi.Ansi.Color.*;
+import static view.UserSelection.selectedMovie;
 
 public class DisplayMovie {
-    private static ArrayList<Movie> movieList = new ArrayList<>();
+
+    public static ArrayList<Movie> movieList = new ArrayList<>();
     private static ArrayList<Movie> comingSoonMovies = new ArrayList<>();
 
 
@@ -34,12 +37,13 @@ public class DisplayMovie {
         comingSoonMovies.add(new Movie(15,"Home Sweet Hell","Horror",100,4.0,true,"25-02-2025"));
     }
 
-    public static void showMovies() {
+
+    public static void showMovies(boolean isAdminVeiw) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ MOVIE LIST ══════════════════════").reset());
         System.out.println(Ansi.ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-10s ║ %-12s ║\n").reset()),
+        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║ %-12s ║\n").reset()),
                 "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Release Date");
         System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
 
@@ -48,7 +52,7 @@ public class DisplayMovie {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? "Khmer" : "English";
 
-            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-10s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
                     movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getReleaseDate());
         }
@@ -67,25 +71,27 @@ public class DisplayMovie {
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
+        int comingsoonID=1;
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
 
             // Print each movie in the table with a colored format
             System.out.printf(String.valueOf(Ansi.ansi().fg(Ansi.Color.BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║ %-12s ║\n").reset()),
-                    movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
+                    comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getReleaseDate());
         }
 
         // Table Footer for Coming Soon Movies
         System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩──────────────╝").reset());
-
+        if (isAdminVeiw) {
+            return;
+        }
         // 🎟️ Select Movie (With Validation)
-        int movieId = -1;
+        int movieId;
         while (true) {
-            System.out.print("Choose a movie by ID: ");
+            System.out.print("Choose a movie by ID -> ");
             movieId = scanner.nextInt();
-
             if (movieId >= 1 && movieId <= movieList.size()) {
                 break;
             }
@@ -102,7 +108,7 @@ public class DisplayMovie {
                 "Today (18)", "Tue (19)", "Wed (20)", "Thurs (21)");
         System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╝").reset());
 
-        System.out.print("Choose Date (Enter number 1-4): ");
+        System.out.print("Choose Date (Enter number 1-4)-> ");
         int dateChoice = scanner.nextInt();
 
         System.out.println("\n🎬 You have selected: " + movieList.get(movieId - 1).getTitle());
@@ -111,42 +117,69 @@ public class DisplayMovie {
 
 // 📍 Choose Location & Time
         String[][] locations = {
-                {"Mean Chey", "7:30 AM", "10:30 AM", "12:45 PM"},
-                {"City Mall", "8:00 AM", "1:30 PM", "3:45 PM"},
-                {"Aeon 2", "9:00 AM", "2:15 PM", "4:20 PM"},
-                {"Aeon 1", "9:45 AM", "10:42 PM", "5:00 PM"}
+                {"Mean Chey", "7:30 AM", "10:30 AM", "12:45 PM","6:00 PM","9:30 PM"},
+                {"City Mall", "8:00 AM", "1:30 PM", "3:45 PM","4:45 PM","7:30 PM"},
+                {"Aeon 2", "9:00 AM", "2:15 PM", "4:20 PM","5:50 PM","10:20 PM"},
+                {"Aeon 1", "9:45 AM", "10:42 PM", "5:00 PM","8:50 PM","10:00 PM "}
         };
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE LOCATIONS & TIMES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════╦════════════╦════════════╦════════════╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
-                "Location", "Time 1", "Time 2", "Time 3");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════╬════════════╬════════════╬════════════╣").reset());
+        System.out.println("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗");
+        System.out.printf("║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║\n",
+                "Location", "Time 1", "Time 2", "Time 3", "Time 4", "Time 5");
+        System.out.println("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣");
 
 // Display locations
         for (String[] location : locations) {
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
-                    location[0], location[1], location[2], location[3]);
+            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
+                    location[0], location[1], location[2], location[3], location[4], location[5]);
         }
 
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╝").reset());
+        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝").reset());
 
-        System.out.print("Choose Location (Enter number 1-4): ");
+
+        System.out.print("Choose Location (Enter number 1-4)-> ");
         int locationChoice = scanner.nextInt();
 
         System.out.println("\n📍 Location: " + locations[locationChoice - 1][0]);
 
-        System.out.print("Choose Time Slot (Enter 1-3): ");
+        System.out.print("Choose Time Slot (Enter 1-5)-> ");
         int timeChoice = scanner.nextInt();
 
         System.out.println("\n🕒 Time: " + locations[locationChoice - 1][timeChoice]);
+        selectedMovie = movieList.get(movieId - 1).getTitle();
+        UserSelection.assignedHall = assignHall(movieList.get(movieId - 1).getId()); // ✅ Assign Hall
+        UserSelection.selectedDate = dates[dateChoice - 1];
+        UserSelection.selectedLocation = locations[locationChoice - 1][0];
+        UserSelection.selectedTime = locations[locationChoice - 1][timeChoice];
 
+
+        System.out.println("\n🎬 You have selected: " + selectedMovie);
+        System.out.println("\uD83C\uDFDB Hall: "+ UserSelection.assignedHall);
+        System.out.println("📅 Date: " + UserSelection.selectedDate);
+        System.out.println("📍 Location: " + UserSelection.selectedLocation);
+        System.out.println("🕒 Time: " + UserSelection.selectedTime);
 
     }
-    private static String formattedDuration(int duration) {
+
+    private static String assignHall(int movieId) {
+        if (movieId >= 1 && movieId <= 4) {
+            return "Hall A";
+        } else if (movieId >= 5 && movieId <= 7) {
+            return "Hall B";
+        } else {
+            return "Hall C";
+        }
+
+    }
+
+
+    public static String formattedDuration(int duration) {
         int hours = duration / 60;
         int minutes = duration % 60;
         return String.format("%dh %02dm", hours, minutes);
     }
 
+    public static void viewMovies() {
+    }
 }

@@ -1,17 +1,18 @@
-import Admin.AdminManagement;
-import User.SeatHall;
-import User.UserLoginSignUp;
-import User.MovieList.DisplayMovie;
-
-
+import view.SeatHall;
+import view.UserLoginSignUp;
+import view.MovieList.DisplayMovie;
+import controller.*;
+import model.dao.UserDaoImpl;
+import model.entity.User;
 import org.fusesource.jansi.Ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        AdminManagement adminManagement= new AdminManagement();
         Scanner scanner = new Scanner(System.in);
-        AdminManagement adminManagement = new AdminManagement();
         int option;
 
         do {
@@ -31,7 +32,7 @@ public class Main {
                     userMenu(scanner);
                     break;
                 case 2:
-                    AdminManagement.admin();
+                    adminManagement.runAdminPanel();
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -61,9 +62,9 @@ public class Main {
 
             switch (userOption) {
                 case 1:
-                    System.out.println(Ansi.ansi().fg(BLUE).a("\n══════════════════════════════════════════").reset());
-                    System.out.println(Ansi.ansi().fg(GREEN).a( "║               🔐 SIGN UP PAGE          ║").reset());
-                    System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
+                    System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 SIGN UP PAGE              ║").reset());
+                    System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
                     UserLoginSignUp.signUp();
                     if (UserLoginSignUp.login()) {
                         loggedInMenu(scanner);
@@ -90,24 +91,25 @@ public class Main {
         int option;
         SeatHall seatHall = new SeatHall();
         do {
-            System.out.println("\n---------------- Logged-In Menu ----------------");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════╗").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "1.  View Movies");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-26s ║\n").reset()), "2.  View Halls");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════╣").reset());
-            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-26s ║\n").reset()), "0.  Logout");
-            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════╝").reset());
-            System.out.print("Choose an option: ");
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║             🔐Logged-In Menu           ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════╣").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a("║   1️⃣     │ View Movies                 ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("║   2️⃣     │ View Halls                  ║").reset());
+            System.out.println(Ansi.ansi().fg(MAGENTA).a("║   0️⃣     │ Exit System                 ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════╝").reset());
 
             option = getValidInput(scanner, "Choose an option->  ");
 
             switch (option) {
                 case 1:
-                    DisplayMovie.showMovies();
+                    DisplayMovie.showMovies(false);
                     break;
                 case 2:
                     SeatHall.displaySeating();
+                    SeatHall.bookSeats();
+                    SeatHall.printReceipt();
+
                     break;
                 case 0:
                     System.out.println("Logging out...");

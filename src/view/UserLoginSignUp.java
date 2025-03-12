@@ -1,10 +1,11 @@
-package User;
+package view;
 
 import org.fusesource.jansi.Ansi;
 
 import java.util.HashMap;
-import java.util.regex.Pattern;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import static org.fusesource.jansi.Ansi.Color.*;
 
 public class UserLoginSignUp {
@@ -12,7 +13,7 @@ public class UserLoginSignUp {
     private String email;
     private String phoneNumber;
     private String password;
-    private static HashMap<String, UserLoginSignUp> users = new HashMap<>();
+    public static HashMap<String, UserLoginSignUp> users = new HashMap<>();
 
     UserLoginSignUp(String username, String email, String phoneNumber, String password) {
         this.username = username;
@@ -20,6 +21,7 @@ public class UserLoginSignUp {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+
 
     public String getUsername() {
         return username;
@@ -74,16 +76,19 @@ public class UserLoginSignUp {
         while (true) {
             System.out.print("\uD83D\uDCDE Phone Number:  (at least 8 digits): ");
             phoneNumber = input.nextLine().trim();
-            if (!phoneNumber.isEmpty() && isValidPhoneNumber(phoneNumber)) break;
+            if (phoneNumber.length() >= 8 && phoneNumber.length() <= 10 && phoneNumber.chars().allMatch(Character::isDigit))
+                break;
             System.out.println("Invalid phone number! It must be at least 8 digits.");
         }
 
         String password;
         while (true) {
-            System.out.print("\uD83D\uDD11 Password:  ");
+            System.out.print("\uD83D\uDD11 Password: ");
             password = input.nextLine().trim();
-            if (!password.isEmpty()) break;
-            System.out.println("Password cannot be empty! Please enter your password.");
+
+            if (password.length() >= 8) break; // ✅ Ensure at least 8 characters
+
+            System.out.println("❌ Password must be at least 8 characters long! Please try again.");
         }
 
         users.put(email, new UserLoginSignUp(username, email, phoneNumber, password));
@@ -97,6 +102,9 @@ public class UserLoginSignUp {
         String email;
 
         while (true) {
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 LOGIN PAGE                ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
             System.out.print("\uD83D\uDCE9 Email: ");
             email = scanner.nextLine().trim();
             if (!email.isEmpty() && isValidEmail(email)) {
@@ -138,10 +146,10 @@ public class UserLoginSignUp {
 
         if (users.get(email).getPassword().equals(password)) {
             UserLoginSignUp user = users.get(email);
-            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════════════════════════════════").reset());
-            System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉              ║").reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a("\n╔══════════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉            ║").reset());
             System.out.println(Ansi.ansi().fg(GREEN).a("╠══════════════════════════════════════════════════╣").reset());
-            System.out.println(Ansi.ansi().fg(BLUE).a("║   Welcome back! You have successfully logged in.  ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("║   Welcome back! You have successfully logged in. ║").reset());
             System.out.println(Ansi.ansi().fg(GREEN).a("╚══════════════════════════════════════════════════╝").reset());
 
             return true;
