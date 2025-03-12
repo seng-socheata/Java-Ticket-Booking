@@ -60,7 +60,8 @@ public class UserSelection {
                 "🎭 Hall: " + assignedHall,
                 "📅 Date: " + selectedDate,
                 "📍 Location: " + selectedLocation,
-                "🕒 Time: " + selectedTime
+                "🕒 Time: " + selectedTime,
+                "💺 Seats: "+ (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
         };
 
         // Find the maximum line length (for box sizing)
@@ -209,32 +210,8 @@ public class UserSelection {
         double discountAmount = totalPrice * (discount / 100);
         double finalPrice = totalPrice - discountAmount;
 
-//        String boxTopBottom = "╔════════════════════════════════════════════════╗";
-//        String boxMiddle = "║                                                                    ";
-//
-//
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a("║              🎟️ BOOKING RECEIPT                ║"));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("╠════════════════════════════════════════════════╣"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🎬 Movie:     " + selectedMovie + "                           ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 📅 Date:      " + selectedDate + "                       ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 📍 Location:  " + selectedLocation + "                        ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🕒 Time:      " + selectedTime + "                          ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🏛 Hall:      " + assignedHall + "                           ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 💺 Seats:     " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)+"                             ║" ));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("╠════════════════════════════════════════════════╣"));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║ 🎟 Total Tickets: " + totalTickets + "                            ║"));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║ 🎟 Regular Seats: " + regularSeats + " x $4 = $" + (regularSeats * regularSeatPrice)+"                ║" ));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║ 🎟 VIP Seats:     " + vipSeats + " x $10 = $" + (vipSeats * vipSeatPrice)+"               ║"));
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("╠════════════════════════════════════════════════╣"));
-//        System.out.println(ansi().fg(Ansi.Color.MAGENTA).a("║ 💰 Total Price: $"+ String.format("%.2f", totalPrice) + "                          ║"));
-//
-//        if (discount > 0) {
-//            System.out.println(ansi().fg(Ansi.Color.RED).a("║ 🔥 Discount:   " + (int)discount + "% (-$" + String.format("%.2f", discountAmount) + ")  ")+ "                   ║ ");
-//            System.out.println(ansi().fg(Ansi.Color.RED).a("║ 💲 Final Price: $" + String.format("%.2f", finalPrice) + "                          ║ "));
-//        }
-//
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a("╚════════════════════════════════════════════════╝"));
+
+
 
         String[] lines = {
                 "🎬 Movie:     " + selectedMovie,
@@ -243,31 +220,37 @@ public class UserSelection {
                 "🕒 Time:      " + selectedTime,
                 "🏛 Hall:      " + assignedHall,
                 "💺 Seats:     " + (bookedSeats.isEmpty() ? "No seats selected" : String.join(", ", bookedSeats)),
+                "────────────────────────────────────────────────────────", // Separator line
                 "🎟 Total Tickets: " + totalTickets,
                 "🎟 Regular Seats: " + regularSeats + " x $4 = $" + (regularSeats * regularSeatPrice),
                 "🎟 VIP Seats:     " + vipSeats + " x $10 = $" + (vipSeats * vipSeatPrice),
+                "────────────────────────────────────────────────────────", // New separator before Total Price
                 "💰 Total Price: $" + String.format("%.2f", totalPrice),
         };
+
         int maxLength = 0;
         for (String line : lines) {
             maxLength = Math.max(maxLength, line.length());
         }
 
-
         int boxWidth = maxLength + 36;
-
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
+        String separator = "╠" + "═".repeat(boxWidth - 2) + "╣"; // Creates a separator line
+
         System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║               🎟 BOOKING CONFIRMATION 🎟               ║"));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("╠" + "═".repeat(boxWidth - 2) + "╣"));
+        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                                    🎟 BOOKING RECEIPT 🎟                                 ║"));
+        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a(separator));
+
         for (String line : lines) {
-            // Calculate spaces for padding based on the max width
-            String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
-            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+            if (line.startsWith("───")) {  // Check for separator lines
+                System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a(separator));
+            } else {
+                String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
+                System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+            }
         }
 
-        // Print the bottom border
         System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
 
 
@@ -279,13 +262,13 @@ public class UserSelection {
         if (paymentChoice.equals("yes")) {
             showQRCode();
 
-            String topBorder = "╔═════════════════════════════════════════════════════╗";
-            String bottomBorder = "╚═════════════════════════════════════════════════════╝";
+            String topBorder = "╔══════════════════════════════════════════════════════════════════════════════════════════╗";
+            String bottomBorder = "╚══════════════════════════════════════════════════════════════════════════════════════════╝";
 
             System.out.println(ansi().fg(Ansi.Color.GREEN).a(topBorder));
-            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
-            System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║   🎉Payment successful! Enjoy your movie!🍿         ║"));
-            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                     ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                                                          ║"));
+            System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║                             🎉Payment successful! Enjoy your movie!🍿                    ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                                                          ║"));
             System.out.println(ansi().fg(Ansi.Color.GREEN).a(bottomBorder));
         }
         else {
