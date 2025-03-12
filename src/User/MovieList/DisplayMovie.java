@@ -183,15 +183,47 @@ public class DisplayMovie {
 
 
 
-        String boxTopBottom = "╔════════════════════════════════════════════════╗";
-        String boxMiddle = "║                                                ";
-        String boxBottom = "╚════════════════════════════════════════════════╝";
+//        String boxTopBottom = "╔════════════════════════════════════════════════════════╗";
+//        String boxMiddle = "║                                                ";
+//        String boxBottom = "╚════════════════════════════════════════════════════════╝";
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎬 Movie: " + selectedMovie + "                                       ║"));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎭 Hall: " + assignedHall + "                                        ║"));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📅 Date: " + selectedDate + "                                    ║"));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📍 Location: " + selectedLocation + "                                 ║"));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🕒 Time: " + selectedTime + "                                       ║ "));
+//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
+        String[] lines = {
+                "🎬 Movie: " + selectedMovie,
+                "🎭 Hall: " + assignedHall,
+                "📅 Date: " + selectedDate,
+                "📍 Location: " + selectedLocation,
+                "🕒 Time: " + selectedTime
+        };
+
+        // Find the maximum line length (for box sizing)
+        int maxLength = 0;
+        for (String line : lines) {
+            maxLength = Math.max(maxLength, line.length());
+        }
+
+
+        int boxWidth = maxLength + 36;
+
+        String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
+        String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
+
+        // Print the top border
         System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎬 Movie: " + selectedMovie + "                               ║   "));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎭 Hall: " + assignedHall + "                                ║     "));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📅 Date: " + selectedDate + "                            ║ "));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📍 Location: " + selectedLocation + "                         ║    "));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🕒 Time: " + selectedTime + "                               ║ "));
+
+        // Print each line with consistent padding
+        for (String line : lines) {
+            // Calculate spaces for padding based on the max width
+            String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
+            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+        }
+
+        // Print the bottom border
         System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
     }
 
