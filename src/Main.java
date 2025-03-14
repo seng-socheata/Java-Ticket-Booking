@@ -19,15 +19,6 @@ public class Main {
                     Ansi.ansi().fg(YELLOW).a("2. Admin").reset().toString(),
                     Ansi.ansi().fg(RED).a("0. Exit").reset().toString()
             });
-//            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ MAIN MENU ════════════════════════").reset());
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════════════════════════════════╗").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "1.  User");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "2.  Admin");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-54s ║\n").reset()), "0.  Exit");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
-
 
             option = getValidInput(scanner, "Enter your choice-> ");
 
@@ -53,14 +44,7 @@ public class Main {
         int userOption;
 
         do {
-//            System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ USER MENU ════════════════════════").reset());
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════════════════════════════════════════════════╗").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "1.  Sign Up");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-54s ║\n").reset()), "2.  Login");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-//            System.out.printf(String.valueOf(Ansi.ansi().fg(RED).a("║ %-54s ║\n").reset()), "0.  Exit");
-//            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
+
             printCenteredMenu("USER MENU", new String[]{
                     Ansi.ansi().fg(YELLOW).a("1. Sign Up").reset().toString(),
                     Ansi.ansi().fg(YELLOW).a("2. Login").reset().toString(),
@@ -93,7 +77,7 @@ public class Main {
         } while (userOption != 0);
     }
     private static void printCenteredMenu(String title, String[] options) {
-        int totalWidth = 56; // Inner content width
+        int totalWidth = 56;
         String border = "════════════════════════════════════════════════════════";
 
         System.out.println(Ansi.ansi().fg(GREEN).a("\n════════════════════════ " + title + " ════════════════════════").reset());

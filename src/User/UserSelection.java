@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static User.SeatHall.addBookingToDB;
+import static User.UserLoginSignUp.login;
+import static java.lang.ProcessBuilder.Redirect.to;
 import static jdk.internal.org.jline.utils.AttributedStyle.BRIGHT;
 import static jdk.internal.org.jline.utils.AttributedStyle.CYAN;
 import static org.fusesource.jansi.Ansi.Color.*;
@@ -129,7 +131,6 @@ public class UserSelection {
                     .reset());
         }
 
-        // Print bottom border
         System.out.println(ansi().fg(BLUE).a(boxBottom).reset());
 
 
@@ -255,6 +256,10 @@ public class UserSelection {
 
 
 
+
+
+
+
         String[] lines = {
                 "🎬 Movie:     " + selectedMovie,
                 "📅 Date:      " + selectedDate,
@@ -269,7 +274,6 @@ public class UserSelection {
                 "────────────────────────────────────────────────────────", // New separator before Total Price
                 "💰 Total Price: $" + String.format("%.2f", totalPrice),
         };
-
         int maxLength = 0;
         for (String line : lines) {
             maxLength = Math.max(maxLength, line.length());
@@ -280,21 +284,23 @@ public class UserSelection {
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
         String separator = "╠" + "═".repeat(boxWidth - 2) + "╣"; // Creates a separator line
 
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                                    🎟 BOOKING RECEIPT 🎟                                 ║"));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a(separator));
+        // Set the border color to green for all parts (Top, Bottom, Separator, and borders)
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxTopBottom));
+        System.out.println(ansi().fg(YELLOW).a("║                                    🎟 BOOKING RECEIPT 🎟                                 ║"));
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator)); // Green separator
 
+        // Loop to print each line with the proper format
         for (String line : lines) {
-            if (line.startsWith("───")) {  // Check for separator lines
-                System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a(separator));
+            if (line.startsWith("───")) {
+                System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));
             } else {
-                String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
-                System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+
+                String paddedLine = "║ " + ansi().fg(YELLOW).a(line) + " ".repeat(boxWidth - 4 - line.length()) + " ║";
+                System.out.println(ansi().fg(YELLOW).a(paddedLine));
             }
         }
 
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
-
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxBottom));
 
         addPaymentToDB(selectedMovie, totalTickets, regularSeats, vipSeats, regularSeatPrice, vipSeatPrice,
                 totalPrice, discount, discountAmount, finalPrice);
@@ -312,7 +318,9 @@ public class UserSelection {
             System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║                             🎉Payment successful! Enjoy your movie!🍿                    ║"));
             System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                                                          ║"));
             System.out.println(ansi().fg(Ansi.Color.GREEN).a(bottomBorder));
+
         }
+
         else {
             System.out.println(ansi().fg(Ansi.Color.RED).a("⚠️ Your booking is pending payment. Make sure to pay before your movie time!"));
         }
@@ -372,6 +380,7 @@ public class UserSelection {
 
         // Make the JFrame visible
         mainFrame.setVisible(true);
+        mainFrame.setAlwaysOnTop(true);
     }
 
     private static BufferedImage generateQRCodeImage(String data, int width, int height) throws WriterException {
