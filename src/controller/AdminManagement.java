@@ -51,7 +51,7 @@ public class AdminManagement {
             System.out.println(Ansi.ansi().fg(YELLOW).a("║   3️⃣     │ Update Movie Details        ║").reset());
             System.out.println(Ansi.ansi().fg(RED).a("║   4️⃣     │ Delete a Movie              ║").reset());
             System.out.println(Ansi.ansi().fg(YELLOW).a("║   5️⃣     │ View Users                  ║").reset());
-//            System.out.println(Ansi.ansi().fg(BLUE).a("║   6️⃣     │ View Hall (Seats)           ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("║   6️⃣     │ View Hall (Seats)           ║").reset());
             System.out.println(Ansi.ansi().fg(MAGENTA).a("║   7️⃣     │ View Booking                ║").reset());
             System.out.println(Ansi.ansi().fg(MAGENTA).a("║   0️⃣     │ Exit System                 ║").reset());
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════╝").reset());
