@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import static User.UserSelection.*;
 import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class DisplayMovie {
     public static ArrayList<Movie> movieList = new ArrayList<>();
@@ -36,38 +37,38 @@ public class DisplayMovie {
     public static void showMovies(boolean isAdminVeiw) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ MOVIE LIST ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+        System.out.println(ansi().fg(GREEN).a("\n═══════════════════════════════════════════ MOVIE LIST ═════════════════════════════════════════════").reset());
+        System.out.println(ansi().fg(GREEN).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
+        System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                 "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Language", "Release Date");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
+        System.out.println(ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Movies
         for (Movie movie : movieList) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? "Khmer" : "English";
-            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
+        System.out.println(ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
 
-        System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ COMING SOON MOVIES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+        System.out.println(ansi().fg(GREEN).a("\n═════════════════════════════════════════ COMING SOON MOVIES ════════════════════════════════════════").reset());
+        System.out.println(ansi().fg(BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
+        System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                 "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Language", "Release Date");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
+        System.out.println(ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
         char comingsoonID='a';
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
-            System.out.printf(String.valueOf(Ansi.ansi().fg(BLUE).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+            System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
+        System.out.println(ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
 
         if (isAdminVeiw) {
             return;
@@ -90,14 +91,12 @@ public class DisplayMovie {
             }
         }
 
-
-
         String[] dates = {"Today (10)", "Tue (11)"};
-        System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE DATES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(BLUE).a("╔════════════╦════════════╗").reset());
-        System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ \n").reset()),
+        System.out.println(ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE DATES ══════════════════════").reset());
+        System.out.println(ansi().fg(BLUE).a("╔════════════╦════════════╗").reset());
+        System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ \n").reset()),
                 "Today (10)", "Tue (11)");
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╝").reset());
+        System.out.println(ansi().fg(BLUE).a("╚════════════╩════════════╝").reset());
 
         int dateChoice;
         while (true) {
@@ -116,8 +115,6 @@ public class DisplayMovie {
                 scanner.next();
             }
         }
-
-
         String[][] locations = {
                 {"Mean Chey", "7:30 AM", "10:30 AM", "12:45 PM","6:00 PM","9:30 PM"},
                 {"City Mall", "8:00 AM", "1:30 PM", "3:45 PM","4:45 PM","7:30 PM"},
@@ -125,19 +122,19 @@ public class DisplayMovie {
                 {"Aeon 1", "9:45 AM", "10:42 PM", "5:00 PM","8:50 PM","10:00 PM "}
         };
 
-        System.out.println(Ansi.ansi().fg(GREEN).a("\n══════════════════════ AVAILABLE LOCATIONS & TIMES ══════════════════════").reset());
-        System.out.println(Ansi.ansi().fg(MAGENTA).a("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗").reset());
+        System.out.println(ansi().fg(GREEN).a("\n══════════════════════════ AVAILABLE LOCATIONS & TIMES ════════════════════════").reset());
+        System.out.println(ansi().fg(MAGENTA).a("╔════════════╦════════════╦════════════╦════════════╦════════════╦════════════╗").reset());
         System.out.printf("║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║ %-9s  ║\n",
                 "Location", "Time 1", "Time 2", "Time 3", "Time 4", "Time 5");
-        System.out.println(Ansi.ansi().fg(MAGENTA).a("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣").reset());
+        System.out.println(ansi().fg(MAGENTA).a("╠════════════╬════════════╬════════════╬════════════╬════════════╬════════════╣").reset());
 
         // Display locations
         for (String[] location : locations) {
-            System.out.printf(String.valueOf(Ansi.ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
+            System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║ %-10s ║\n").reset()),
                     location[0], location[1], location[2], location[3], location[4], location[5]);
         }
 
-        System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝").reset());
+        System.out.println(ansi().fg(BLUE).a("╚════════════╩════════════╩════════════╩════════════╩════════════╩════════════╝").reset());
 
 
         int locationChoice;
@@ -181,18 +178,6 @@ public class DisplayMovie {
         UserSelection.selectedLocation = locations[locationChoice - 1][0];
         UserSelection.selectedTime = locations[locationChoice - 1][timeChoice];
 
-
-
-//        String boxTopBottom = "╔════════════════════════════════════════════════════════╗";
-//        String boxMiddle = "║                                                ";
-//        String boxBottom = "╚════════════════════════════════════════════════════════╝";
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎬 Movie: " + selectedMovie + "                                       ║"));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🎭 Hall: " + assignedHall + "                                        ║"));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📅 Date: " + selectedDate + "                                    ║"));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 📍 Location: " + selectedLocation + "                                 ║"));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║ 🕒 Time: " + selectedTime + "                                       ║ "));
-//        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
         String[] lines = {
                 "🎬 Movie: " + selectedMovie,
                 "🎭 Hall: " + assignedHall,
@@ -201,30 +186,25 @@ public class DisplayMovie {
                 "🕒 Time: " + selectedTime
         };
 
-        // Find the maximum line length (for box sizing)
         int maxLength = 0;
         for (String line : lines) {
             maxLength = Math.max(maxLength, line.length());
         }
-
-
         int boxWidth = maxLength + 36;
-
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
 
-        // Print the top border
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxTopBottom).reset());
 
-        // Print each line with consistent padding
         for (String line : lines) {
-            // Calculate spaces for padding based on the max width
             String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
-            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║")
+                    .fg(Ansi.Color.BLACK).a(" " + line + " ".repeat(boxWidth - 4 - line.length()) + " ")
+                    .fg(Ansi.Color.GREEN).a("║")
+                    .reset());
         }
 
-        // Print the bottom border
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxBottom).reset());
     }
 
     private static String assignHall(int movieId) {

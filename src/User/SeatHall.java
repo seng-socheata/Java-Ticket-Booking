@@ -162,7 +162,6 @@ public class SeatHall {
 
     }
 
-    // Method to add booking to the database
     public static void addBookingToDB(String movieName, String row, int columnNumber, String seatLabel, boolean isVip) {
         String sql = "INSERT INTO booking (movie_name, row, column_number, seat_label, is_vip, booked_at) " +
                 "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
@@ -189,8 +188,6 @@ public class SeatHall {
     }
 
     public static void printReceipt() {
-
         UserSelection.displaySummary();
-
     }
 }

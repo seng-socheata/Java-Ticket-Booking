@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static User.SeatHall.addBookingToDB;
+import static jdk.internal.org.jline.utils.AttributedStyle.BRIGHT;
 import static jdk.internal.org.jline.utils.AttributedStyle.CYAN;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -45,54 +46,95 @@ public class UserSelection {
 
     String boxMiddle = "                ║";
     public static void displaySummary() {
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("╔═════════════════════════════════════════════╗"));
-//        System.out.println(ansi().fg(YELLOW).a("║         🎟 BOOKING CONFIRMATION 🎟          ║").reset());
-//        System.out.println(ansi().fg(Ansi.Color.YELLOW).a("╠═════════════════════════════════════════════╣"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🎬 Movie    :     " + selectedMovie + "                    ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 📅 Date     :      " + selectedDate + "               ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 📍 Location :  " + selectedLocation + "                    ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🕒 Time     :      " + selectedTime + "                  ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 🏛 Hall     :      " + assignedHall + "                   ║"));
-//        System.out.println(ansi().fg(Ansi.Color.GREEN).a("║ 💺 Seats    :     " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)+"                      ║" ));
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a("╚═════════════════════════════════════════════╝"));
+
+//        String[] lines = {
+//                "🎬 Movie: " + selectedMovie,
+//                "🎭 Hall: " + assignedHall,
+//                "📅 Date: " + selectedDate,
+//                "📍 Location: " + selectedLocation,
+//                "🕒 Time: " + selectedTime,
+//                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
+//        };
+//
+//        int maxLength = 0;
+//        for (String line : lines) {
+//            maxLength = Math.max(maxLength, line.length());
+//        }
+//        int boxWidth = maxLength + 36;
+//
+//        String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
+//        String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
+//        String separator = "╠" + "═".repeat(boxWidth - 2) + "╣";
+//
+//        // Print top border
+//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(boxTopBottom).reset());
+//
+//        // Print title with yellow color
+//        System.out.println(ansi().fg(Ansi.Color.CYAN).a("║ ")
+//                .fg(Ansi.Color.YELLOW).a("🎟 BOOKING CONFIRMATION 🎟")
+//                .fg(Ansi.Color.CYAN).a(" ".repeat(boxWidth - 4 - "🎟 BOOKING CONFIRMATION 🎟".length()) + " ║")
+//                .reset());
+//
+//
+//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(separator).reset());
+//
+//        for (String line : lines) {
+//            System.out.println(ansi().fg(Ansi.Color.CYAN).a("║ ")
+//                    .fg(Ansi.Color.BLACK).a(line)
+//                    .fg(Ansi.Color.CYAN).a(" ".repeat(boxWidth - 4 - line.length()) + " ║")
+//                    .reset());
+//        }
+//
+//        // Print bottom border
+//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(boxBottom).reset());
+
         String[] lines = {
                 "🎬 Movie: " + selectedMovie,
                 "🎭 Hall: " + assignedHall,
                 "📅 Date: " + selectedDate,
                 "📍 Location: " + selectedLocation,
                 "🕒 Time: " + selectedTime,
-                "💺 Seats: "+ (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
+                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
         };
 
-        // Find the maximum line length (for box sizing)
         int maxLength = 0;
         for (String line : lines) {
             maxLength = Math.max(maxLength, line.length());
         }
-
-
         int boxWidth = maxLength + 36;
 
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
+        String separator = "╠" + "═".repeat(boxWidth - 2) + "╣";
 
-        // Print the top border
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxTopBottom));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║               🎟 BOOKING CONFIRMATION 🎟               ║"));
-        System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("╠" + "═".repeat(boxWidth - 2) + "╣"));
+        // Title text
+        String title = "🎟 BOOKING CONFIRMATION 🎟";
+        int paddingSize = (boxWidth - 2 - title.length()) / 2;
+        String centeredTitle = "║" + " ".repeat(paddingSize) + title + " ".repeat(boxWidth - 2 - paddingSize - title.length()) + "║";
 
+        // Print top border
+        System.out.println(ansi().fg(BLUE).a(boxTopBottom).reset());
+
+        // Print centered title with yellow color
+        System.out.println(ansi().fg(Ansi.Color.YELLOW).a(centeredTitle).reset());
+
+        // Print separator
+        System.out.println(ansi().fg(BLUE).a(separator).reset());
+
+        // Print booking details with black text
         for (String line : lines) {
-            // Calculate spaces for padding based on the max width
-            String paddedLine = "║ " + line + " ".repeat(boxWidth - 4 - line.length()) + " ║";
-            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(paddedLine));
+            System.out.println(ansi().fg(BLUE).a("║ ")
+                    .fg(Ansi.Color.BLACK).a(line)
+                    .fg(BLUE).a(" ".repeat(boxWidth - 4 - line.length()) + " ║")
+                    .reset());
         }
 
-        // Print the bottom border
-        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a(boxBottom));
+        // Print bottom border
+        System.out.println(ansi().fg(BLUE).a(boxBottom).reset());
 
 
 
-        System.out.println(ansi().fg(YELLOW).a("🎉 Thank you for booking with us! Enjoy your movie. 🍿").reset());
+        System.out.println(ansi().fg(GREEN).a("🎉 Thank you for booking with us! Enjoy your movie. 🍿").reset());
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("\n💳 Do you want to proceed to payment? (yes/no): ");
