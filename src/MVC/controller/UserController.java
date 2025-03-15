@@ -56,6 +56,7 @@ public class UserController {
         return null;
     }
 
+
     public static void deleteUser(String email) {
         String sql = "DELETE FROM users WHERE email = ?";
         try (Connection conn = Database.getConnection();
@@ -63,7 +64,6 @@ public class UserController {
 
             stmt.setString(1, email);
             int rowsAffected = stmt.executeUpdate();
-
             if (rowsAffected > 0) {
                 System.out.println("User deleted successfully!");
             } else {

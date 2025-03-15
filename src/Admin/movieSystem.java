@@ -57,8 +57,6 @@ class movieSystem {
         this.releaseDate = releaseDate;
     }
 
-    public void display() {
-        System.out.println("Movie ID: " + id + " | Title: " + title + " | Genre: " + genre + " | Duration: " + duration + " | Price: $" + price + " | Release Date: " + releaseDate);
-    }
+
 
 }

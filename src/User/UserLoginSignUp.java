@@ -1,4 +1,4 @@
-package Users;
+package User;
 
 import org.fusesource.jansi.Ansi;
 import MVC.Config.Database;
@@ -55,7 +55,7 @@ public class UserLoginSignUp {
                   System.out.print("\uD83D\uDC64 Username: ");
                   username = input.nextLine().trim();
                 if (isValidUsername(username)) break;
-                     System.out.println("Invalid username! It cannot be empty or contain only numbers.");
+                  System.out.println("Invalid username! It cannot be empty or contain only numbers.");
             }
             System.out.print("\uD83D\uDC64 First Name: ");
             String firstname = input.nextLine().trim();
@@ -83,7 +83,7 @@ public class UserLoginSignUp {
                 System.out.print("\uD83D\uDCDE Phone Number (at least 8 digits): ");
                 phoneNumber = input.nextLine().trim();
                 if (!phoneNumber.isEmpty() && isValidPhoneNumber(phoneNumber)) break;
-                 System.out.println("Invalid phone number! It must be at least 8 digits.");
+                   System.out.println("Invalid phone number! It must be at least 8 digits.");
             }
 
             String password;
@@ -127,9 +127,9 @@ public class UserLoginSignUp {
 
         String email;
         while (true) {
-            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════╗").reset());
-            System.out.println(Ansi.ansi().fg(YELLOW).a("║               🔐 LOGIN PAGE                ║").reset());
-            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════╝").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════════════════╗").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║                      🔐 LOGIN PAGE                     ║").reset());
+            System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
             System.out.print("\uD83D\uDCE9 Email: ");
             email = scanner.nextLine().trim();
 
@@ -149,9 +149,9 @@ public class UserLoginSignUp {
             System.out.println("❌ Incorrect password! Please try again.");
         }
 
-        System.out.println(Ansi.ansi().fg(GREEN).a("\n╔══════════════════════════════════════════════════╗").reset());
-        System.out.println(Ansi.ansi().fg(YELLOW).a("║               ✅ LOGIN SUCCESSFUL! 🎉            ║").reset());
-        System.out.println(Ansi.ansi().fg(GREEN).a("╠══════════════════════════════════════════════════╣").reset());
+          System.out.println(Ansi.ansi().fg(GREEN).a("\n╔════════════════════════════════════════════════════════╗").reset());
+          System.out.println(Ansi.ansi().fg(YELLOW).a("║                   ✅ LOGIN SUCCESSFUL! 🎉              ║").reset());
+          System.out.println(Ansi.ansi().fg(GREEN).a("╚════════════════════════════════════════════════════════╝").reset());
         return true;
     }
 

@@ -1,6 +1,6 @@
 package MVC.model;
 
-import Users.UserLoginSignUp;
+import User.UserLoginSignUp;
 import java.util.HashMap;
 
 public class User {

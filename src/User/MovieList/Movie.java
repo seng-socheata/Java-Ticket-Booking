@@ -1,4 +1,4 @@
-package Users.MovieList;
+package User.MovieList;
 
 public class Movie {
     private int id;
@@ -84,10 +84,10 @@ public class Movie {
             System.out.println("Invalid movie duration!");
             return;
         }
-          int hours = duration / 60;
-          int minutes = duration % 60;
-          String formattedDuration = String.format("%dh %02dm", hours, minutes);
-          System.out.printf("| %-3d | %-20s | %-15s | %-8s | %-5.1f | %-9s | %-12s |\n",
+        int hours = duration / 60;
+        int minutes = duration % 60;
+        String formattedDuration = String.format("%dh %02dm", hours, minutes);
+        System.out.printf("| %-3d | %-20s | %-15s | %-8s | %-5.1f | %-9s | %-12s |\n",
                 id,
                 (title != null ? title : "Unknown"),
                 (genre != null ? genre : "N/A"),
