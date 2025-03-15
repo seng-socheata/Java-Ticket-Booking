@@ -1,6 +1,7 @@
 package User.MovieList;
 
 public class Movie {
+
     private int id;
     private String title;
     private String genre;
@@ -19,6 +20,7 @@ public class Movie {
         this.hasSubtitle = hasSubtitle;
         this.language = language;
         this.releaseDate = releaseDate;
+
 
     }
     public String getLanguage(){
@@ -74,6 +76,7 @@ public class Movie {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
 
     public void setSubtitle(boolean hasSubtitle) {
         this.hasSubtitle = hasSubtitle;

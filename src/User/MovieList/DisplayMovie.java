@@ -10,7 +10,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class DisplayMovie {
     public static ArrayList<Movie> movieList = new ArrayList<>();
-    private static ArrayList<Movie> comingSoonMovies = new ArrayList<>();
+    public static ArrayList<Movie> comingSoonMovies = new ArrayList<>();
     static {
         movieList.add(new Movie(1, "Avatar", "Sci-Fi", 134, 8.1, true,"English", "01-03-2025"));
         movieList.add(new Movie(2, "Inception", "Action", 148, 8.8, true, "Khmer","10-03-2025"));
@@ -50,21 +50,22 @@ public class DisplayMovie {
         System.out.println(ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
 
         System.out.println(ansi().fg(GREEN).a("\n═════════════════════════════════════════ COMING SOON MOVIES ════════════════════════════════════════").reset());
-        System.out.println(ansi().fg(BLUE).a("╔════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
-        System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-2s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+        System.out.println(ansi().fg(BLUE).a("╔═════╦──────────────────────╦───────────────╦──────────╦───────╦──────────╦───────────╦──────────────╗").reset());
+        System.out.printf(String.valueOf(ansi().fg(YELLOW).a("║ %-3s ║ %-20s ║ %-13s ║ %-8s ║ %-5s ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                 "ID", "Title", "Genre", "Duration", "Rate", "Subtitle", "Language", "Release Date");
-        System.out.println(ansi().fg(BLUE).a("╠════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
+        System.out.println(ansi().fg(BLUE).a("╠═════╬──────────────────────╬───────────────╬──────────╬───────╬──────────╬───────────╬──────────────╣").reset());
 
         // 🎥 Display Coming Soon Movies
         int comingsoonID=1;
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
             String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
-            System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
-                    comingsoonID++, movie.getTitle(), movie.getGenre(), durationFormatted,
+            String formattedID = String.format("%03d", comingsoonID++);
+            System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-3s ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
+                    formattedID, movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
         }
-        System.out.println(ansi().fg(BLUE).a("╚════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
+        System.out.println(ansi().fg(BLUE).a("╚═════╩──────────────────────╩───────────────╩──────────╩───────╩──────────╩───────────╩──────────────╝").reset());
 
         if (isAdminVeiw) {
             return;
