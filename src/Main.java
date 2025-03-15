@@ -133,10 +133,11 @@ public class Main {
         int movieOption;
         do {
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╔════════════════════════════════════════════════════════╗"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║                  🎬 VIEW MOVIES MENU                   ║"));
+            System.out.println(Ansi.ansi().fg(MAGENTA).a("║                  🎬 VIEW MOVIES MENU                   ║"));
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╠════════════════════════════════════════════════════════╣"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("║  1️⃣  View Movies                                       ║"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║  0️⃣  Back to Main Menu                                 ║"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("║                  1️⃣  View Movies                       ║"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╠════════════════════════════════════════════════════════╣"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                  0️⃣  Back to Main Menu                 ║"));
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╚════════════════════════════════════════════════════════╝"));
 
             // Get valid input from the user
@@ -163,10 +164,11 @@ public class Main {
         int hallOption;
         do {
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╔════════════════════════════════════════════════════════╗"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("║                    🎭 VIEW HALL MENU                   ║"));
+            System.out.println(Ansi.ansi().fg(MAGENTA).a("║                    🎭 VIEW HALL MENU                   ║"));
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╠════════════════════════════════════════════════════════╣"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("║  1️⃣  View Hall                                         ║"));
-            System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║  0️⃣  Back to Main Menu                                 ║"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.GREEN).a("║                    1️⃣  View Hall                       ║"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╠════════════════════════════════════════════════════════╣"));
+            System.out.println(Ansi.ansi().fg(Ansi.Color.YELLOW).a("║                    0️⃣  Back to Main Menu               ║"));
             System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN).a("╚════════════════════════════════════════════════════════╝"));
 
             hallOption = getValidInput(scanner, "Choose an option -> ");

@@ -76,16 +76,17 @@ public class MovieManagement {
     private void showMovieManagementMenu() {
         int choice;
         do {
+
             System.out.println(Ansi.ansi().fg(BLUE).a("\n╔════════════════════════════════════════════════════════╗").reset());
-            System.out.println(Ansi.ansi().fg(YELLOW).a("║                   🎬 MOVIE MANAGEMENT MENU             ║").reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a("║                 🎬 MOVIE MANAGEMENT MENU               ║").reset());
             System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-            System.out.println(Ansi.ansi().fg(CYAN).a("║  Option  │        Description                          ║").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a("║          Option       │            Description         ║").reset());
             System.out.println(Ansi.ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
-            System.out.println(Ansi.ansi().fg(CYAN).a("║   1️⃣     │ View Movies                                 ║").reset());
-            System.out.println(Ansi.ansi().fg(GREEN).a("║   2️⃣     │ Add a New Movie                             ║").reset());
-            System.out.println(Ansi.ansi().fg(YELLOW).a("║   3️⃣     │ Update Movie Details                        ║").reset());
-            System.out.println(Ansi.ansi().fg(RED).a("║   4️⃣     │ Delete a Movie                              ║").reset());
-            System.out.println(Ansi.ansi().fg(MAGENTA).a("║   0️⃣     │ Exit System                                 ║").reset());
+            System.out.println(Ansi.ansi().fg(CYAN).a(String.format("║   %-20s │ %-30s ║", "         1️⃣", "View Movies")).reset());
+            System.out.println(Ansi.ansi().fg(GREEN).a(String.format("║   %-20s │ %-30s ║", "         2️⃣", "Add a New Movie")).reset());
+            System.out.println(Ansi.ansi().fg(YELLOW).a(String.format("║   %-20s │ %-30s ║", "         3️⃣", "Update Movie Details")).reset());
+            System.out.println(Ansi.ansi().fg(RED).a(String.format("║   %-20s │ %-30s ║", "         4️⃣", "Delete a Movie")).reset());
+            System.out.println(Ansi.ansi().fg(MAGENTA).a(String.format("║   %-20s │ %-30s ║", "         0️⃣", "Exit System")).reset());
             System.out.println(Ansi.ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
 
             choice = getValidInt("🔹 Enter your choice-> ");
