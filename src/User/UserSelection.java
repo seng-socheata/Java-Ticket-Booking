@@ -13,7 +13,7 @@ import org.fusesource.jansi.Ansi;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 
 import static User.SeatHall.addBookingToDB;
 import static User.UserLoginSignUp.login;
@@ -27,9 +27,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 import static org.fusesource.jansi.Ansi.Color.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+
 import MVC.Config.Database;
 
 import javax.swing.*;
@@ -49,46 +47,7 @@ public class UserSelection {
     String boxMiddle = "                ║";
     public static void displaySummary() {
 
-//        String[] lines = {
-//                "🎬 Movie: " + selectedMovie,
-//                "🎭 Hall: " + assignedHall,
-//                "📅 Date: " + selectedDate,
-//                "📍 Location: " + selectedLocation,
-//                "🕒 Time: " + selectedTime,
-//                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
-//        };
-//
-//        int maxLength = 0;
-//        for (String line : lines) {
-//            maxLength = Math.max(maxLength, line.length());
-//        }
-//        int boxWidth = maxLength + 36;
-//
-//        String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
-//        String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
-//        String separator = "╠" + "═".repeat(boxWidth - 2) + "╣";
-//
-//        // Print top border
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(boxTopBottom).reset());
-//
-//        // Print title with yellow color
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a("║ ")
-//                .fg(Ansi.Color.YELLOW).a("🎟 BOOKING CONFIRMATION 🎟")
-//                .fg(Ansi.Color.CYAN).a(" ".repeat(boxWidth - 4 - "🎟 BOOKING CONFIRMATION 🎟".length()) + " ║")
-//                .reset());
-//
-//
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(separator).reset());
-//
-//        for (String line : lines) {
-//            System.out.println(ansi().fg(Ansi.Color.CYAN).a("║ ")
-//                    .fg(Ansi.Color.BLACK).a(line)
-//                    .fg(Ansi.Color.CYAN).a(" ".repeat(boxWidth - 4 - line.length()) + " ║")
-//                    .reset());
-//        }
-//
-//        // Print bottom border
-//        System.out.println(ansi().fg(Ansi.Color.CYAN).a(boxBottom).reset());
+
 
         String[] lines = {
                 "🎬 Movie: " + selectedMovie,
@@ -96,7 +55,8 @@ public class UserSelection {
                 "📅 Date: " + selectedDate,
                 "📍 Location: " + selectedLocation,
                 "🕒 Time: " + selectedTime,
-                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : bookedSeats)
+                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : String.join(", ", new ArrayList<>(new HashSet<>(bookedSeats))))
+
         };
 
         int maxLength = 0;
@@ -237,15 +197,19 @@ public class UserSelection {
         int regularSeats = 0;
         int vipSeats = 0;
 
-        System.out.println("Booked Seats: " + bookedSeats);
+        Set<String> uniqueSeats = new HashSet<>(UserSelection.bookedSeats); // Remove duplicates
 
-        for (String seat : UserSelection.bookedSeats) {
+        regularSeats = 0;
+        vipSeats = 0;
+
+        for (String seat : uniqueSeats) { // Process only unique seats
             if (seat.matches("^[A-J]\\d+")) {
                 regularSeats++;
             } else if (seat.startsWith("V")) {
                 vipSeats++;
             }
         }
+
         System.out.println("Regular Seats: " + regularSeats);
         System.out.println("VIP Seats: " + vipSeats);
         int totalTickets = regularSeats + vipSeats;
@@ -259,7 +223,8 @@ public class UserSelection {
                 "📍 Location:  " + selectedLocation,
                 "🕒 Time:      " + selectedTime,
                 "🏛 Hall:      " + assignedHall,
-                "💺 Seats:     " + (bookedSeats.isEmpty() ? "No seats selected" : String.join(", ", bookedSeats)),
+                "💺 Seats: " + (bookedSeats.isEmpty() ? "No seats selected" : String.join(", ", new ArrayList<>(new HashSet<>(bookedSeats)))),
+
                 "────────────────────────────────────────────────────────", // Separator line
                 "🎟 Total Tickets: " + totalTickets,
                 "🎟 Regular Seats: " + regularSeats + " x $4 = $" + (regularSeats * regularSeatPrice),
