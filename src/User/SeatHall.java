@@ -86,6 +86,8 @@ public class SeatHall {
     }
 
     public static void bookSeats() {
+        final String RED = "\u001B[31m";
+        final String RESET = "\u001B[0m";
         Scanner scanner = new Scanner(System.in);
         boolean bookingMore = true;
 
@@ -125,7 +127,7 @@ public class SeatHall {
                     if (seats[rows][colInput].contains("BK")) {
                         System.out.println("❌ This VIP pair is already booked!");
                     } else {
-                        seats[rows][colInput] = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2) + "-BK";
+                        seats[rows][colInput] = RED + "VIP" + (colInput + 1) + "-VIP" + (colInput + 2) + "-BK"+RESET;
                         String vipSeatPair = "VIP" + (colInput + 1) + "-VIP" + (colInput + 2);
                         bookedSeats.add(vipSeatPair);
                         UserSelection.bookedSeats.add(vipSeatPair);
@@ -144,7 +146,7 @@ public class SeatHall {
                     if (seats[rowIndex][colInput].contains("BK")) {
                         System.out.println("❌ This seat is already booked!");
                     } else {
-                        seats[rowIndex][colInput] = rowInput + (colInput + 1) + "-BK";
+                        seats[rowIndex][colInput] = RED + rowInput + (colInput + 1) + "-BK"+RESET;
                         bookedSeats.add(rowInput + (colInput + 1));
 
                         addBookingToDB(UserSelection.selectedMovie, rowInput, colInput + 1, rowInput + (colInput + 1), false);

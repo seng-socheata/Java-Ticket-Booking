@@ -253,13 +253,6 @@ public class UserSelection {
         double discountAmount = totalPrice * (discount / 100);
         double finalPrice = totalPrice - discountAmount;
 
-
-
-
-
-
-
-
         String[] lines = {
                 "🎬 Movie:     " + selectedMovie,
                 "📅 Date:      " + selectedDate,
@@ -279,14 +272,14 @@ public class UserSelection {
             maxLength = Math.max(maxLength, line.length());
         }
 
-        int boxWidth = maxLength + 36;
+        int boxWidth = maxLength + 10;
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
         String separator = "╠" + "═".repeat(boxWidth - 2) + "╣"; // Creates a separator line
 
         // Set the border color to green for all parts (Top, Bottom, Separator, and borders)
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxTopBottom));
-        System.out.println(ansi().fg(YELLOW).a("║                                    🎟 BOOKING RECEIPT 🎟                                 ║"));
+        System.out.println(ansi().fg(YELLOW).a("║                      🎟 BOOKING RECEIPT 🎟                     ║"));
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator)); // Green separator
 
         // Loop to print each line with the proper format
@@ -295,7 +288,7 @@ public class UserSelection {
                 System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));
             } else {
 
-                String paddedLine = "║ " + ansi().fg(YELLOW).a(line) + " ".repeat(boxWidth - 4 - line.length()) + " ║";
+                String paddedLine = "║ " + ansi().fg(YELLOW).a(line) + " ".repeat(boxWidth - 4 - line.length())+" ║" ;
                 System.out.println(ansi().fg(YELLOW).a(paddedLine));
             }
         }

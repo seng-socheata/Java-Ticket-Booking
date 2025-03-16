@@ -1,6 +1,7 @@
 package User.MovieList;
 
 public class Movie {
+
     private int id;
     private String title;
     private String genre;
@@ -19,6 +20,7 @@ public class Movie {
         this.hasSubtitle = hasSubtitle;
         this.language = language;
         this.releaseDate = releaseDate;
+
 
     }
     public String getLanguage(){
@@ -75,12 +77,13 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
+
     public void setSubtitle(boolean hasSubtitle) {
         this.hasSubtitle = hasSubtitle;
     }
 
     public void displayMovie() {
-        if (duration <= 0) {
+        if (duration <= 0) { // Prevent errors
             System.out.println("Invalid movie duration!");
             return;
         }
