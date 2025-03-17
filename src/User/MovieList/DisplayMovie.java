@@ -24,8 +24,8 @@ public class DisplayMovie {
         movieList.add(new Movie(10,"Undertaker","Horror",80,7.8,true,"Khmer","015-03-2025"));
 
         // Coming Soon Movies
-        comingSoonMovies.add(new Movie(11, "Guardians", "Sci-Fi", 150, 9.0, true, "Chinese","01-04-2025"));
-        comingSoonMovies.add(new Movie(12, "The Flash", "Action", 145, 8.3, true, "Korea","08-04-2025"));
+        comingSoonMovies.add(new Movie(11, "Guardians", "Sci-Fi", 150, 9.0, true, "Khmer","01-04-2025"));
+        comingSoonMovies.add(new Movie(12, "The Flash", "Action", 145, 8.3, true, "Khmer","08-04-2025"));
         comingSoonMovies.add(new Movie(13, "Avatar 2", "Sci-Fi", 165, 8.9, false, "English","10-04-2025"));
     }
 
@@ -42,7 +42,7 @@ public class DisplayMovie {
         // 🎥 Display Movies
         for (Movie movie : movieList) {
             String durationFormatted = formattedDuration(movie.getDuration());
-            String subtitleStatus = movie.hasSubtitle() ? "Khmer" : "English";
+            String subtitleStatus = movie.hasSubtitle() ? "English" : "Khmer";
             System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-2d ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     movie.getId(), movie.getTitle(), movie.getGenre(), durationFormatted,
                     movie.getRating(), subtitleStatus, movie.getLanguage(),movie.getReleaseDate());
@@ -59,7 +59,7 @@ public class DisplayMovie {
         int comingsoonID=1;
         for (Movie movie : comingSoonMovies) {
             String durationFormatted = formattedDuration(movie.getDuration());
-            String subtitleStatus = movie.hasSubtitle() ? " Khmer" : " English";
+            String subtitleStatus = movie.hasSubtitle() ? " English" : " Khmer";
             String formattedID = String.format("%03d", comingsoonID++);
             System.out.printf(String.valueOf(ansi().fg(BLUE).a("║ %-3s ║ %-20s ║ %-13s ║ %-8s ║ %-5.1f ║ %-8s ║%-10s ║ %-12s ║\n").reset()),
                     formattedID, movie.getTitle(), movie.getGenre(), durationFormatted,

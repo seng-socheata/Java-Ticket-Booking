@@ -50,19 +50,19 @@ public class UserLoginSignUp {
 
         public static void signUp() {
             Scanner input = new Scanner(System.in);
-            String username;
-              while (true) {
-                  System.out.print("\uD83D\uDC64 Username: ");
-                  username = input.nextLine().trim();
-                if (isValidUsername(username)) break;
-                  System.out.println("Invalid username! It cannot be empty or contain only numbers.");
-            }
+
             System.out.print("\uD83D\uDC64 First Name: ");
             String firstname = input.nextLine().trim();
 
             System.out.print("\uD83D\uDC64 Last Name: ");
             String lastname = input.nextLine().trim();
-
+            String username;
+            while (true) {
+                System.out.print("\uD83D\uDC64 Username: ");
+                username = input.nextLine().trim();
+                if (isValidUsername(username)) break;
+                System.out.println("Invalid username! It cannot be empty or contain only numbers.");
+            }
             String email;
                while (true) {
                 System.out.print("\uD83D\uDCE9 Email: ");
@@ -104,25 +104,27 @@ public class UserLoginSignUp {
 
 
 
-        private static boolean saveUser(String username, String first_name, String last_name, String email, String phone_number, String password_hash) {
-            String sql = "INSERT INTO users (username, first_name, last_name, email, phone_number, password_hash) VALUES (?, ?, ?, ?, ?, ?)";
-            try (Connection conn = Database.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, username);
-                stmt.setString(2, first_name);
-                stmt.setString(3, last_name);
-                stmt.setString(4, email);
-                stmt.setString(5, phone_number);
-                stmt.setString(6, password_hash);
-                stmt.executeUpdate();
-                return true;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
+    private static boolean saveUser(String first_name, String last_name, String username, String email, String phone_number, String password_hash) {
+        String sql = "INSERT INTO users (first_name, last_name, username, email, phone_number, password_hash) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, first_name);     // first_name
+            stmt.setString(2, last_name);      // last_name
+            stmt.setString(3, username);       // username
+            stmt.setString(4, email);          // email
+            stmt.setString(5, phone_number);  // phone_number
+            stmt.setString(6, password_hash); // password_hash
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
+    }
 
-      public static boolean login() {
+
+
+    public static boolean login() {
           Scanner scanner = new Scanner(System.in);
 
         String email;

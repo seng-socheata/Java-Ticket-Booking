@@ -139,8 +139,9 @@ public class UserSelection {
         LocalDate today = LocalDate.now();
         double discount = 0;
 
+
         if (today.getDayOfMonth() == 18 && today.getMonthValue() == 2) {
-            discount = 15;
+            discount = 15; // 15% discount
             System.out.println("\n🎉 Special Offer: 15% Discount Today!");
         }
 
@@ -153,10 +154,10 @@ public class UserSelection {
 
             if (promoCode.equalsIgnoreCase("BOOK50")) {
                 discount = Math.max(discount, 5);
-                System.out.println("✅ Promotion code applied! 5% discount.");
+                System.out.println("✅ Promotion code applied! 10% discount.");
             } else if (promoCode.equalsIgnoreCase("MOVIE20")) {
                 discount = Math.max(discount, 10);
-                System.out.println("✅ Promotion code applied! 10% discount.");
+                System.out.println("✅ Promotion code applied! 20% discount.");
             } else {
                 System.out.println("❌ Invalid promo code.");
             }
@@ -184,9 +185,6 @@ public class UserSelection {
         double discountAmount = totalPrice * (discount / 100);
         double finalPrice = totalPrice - discountAmount;
 
-
-
-
         String[] lines = {
                 "🎬 Movie:     " + selectedMovie,
                 "📅 Date:      " + selectedDate,
@@ -194,51 +192,37 @@ public class UserSelection {
                 "🕒 Time:      " + selectedTime,
                 "🏛 Hall:      " + assignedHall,
                 "💺 Seats:     " + (bookedSeats.isEmpty() ? "No seats selected" : String.join(", ", bookedSeats)),
-                "──────────────────────────────────────────────────────", // Separator line
-                "🎟 Tickets:        " + totalTickets,
-                "🎟 Regular Seats:  " + regularSeats + " x $4 = $" + (regularSeats * regularSeatPrice),
-                "🎟 VIP Seats:      " + vipSeats + " x $10 = $" + (vipSeats * vipSeatPrice),
-                "──────────────────────────────────────────────────────", // Separator line
-                "💰 Total Price:    $" + String.format("%.2f", totalPrice)
+                "────────────────────────────────────────────────────────",
+                "🎟 Total Tickets: " + totalTickets,
+                "🎟 Regular Seats: " + regularSeats + " x $4 = $" + (regularSeats * regularSeatPrice),
+                "🎟 VIP Seats:     " + vipSeats + " x $10 = $" + (vipSeats * vipSeatPrice),
+                "────────────────────────────────────────────────────────",
+                "💰 Total Price: $" + String.format("%.2f", totalPrice),
         };
-
-        // Find the longest line to adjust box width
         int maxLength = 0;
         for (String line : lines) {
             maxLength = Math.max(maxLength, line.length());
         }
 
-        // Correct box width calculation
-        int boxWidth = maxLength + 6;  // Add padding
-
+        int boxWidth = maxLength + 10;
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
         String separator = "╠" + "═".repeat(boxWidth - 2) + "╣";
 
-        // Print top border
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxTopBottom));
-
-        // Print title, centered
-        String title = "🎟 TICKET RECEIPT 🎟";
-        int titlePadding = (boxWidth - 2 - title.length()) / 2;
-        System.out.println(ansi().fg(Ansi.Color.YELLOW)
-                .a("║" + " ".repeat(titlePadding) + title + " ".repeat(titlePadding) + "║"));
-
-        // Print separator
+        System.out.println(ansi().fg(YELLOW).a("║                      🎟 BOOKING RECEIPT 🎟                     ║"));
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));
 
-        // Print ticket details
         for (String line : lines) {
             if (line.startsWith("───")) {
                 System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));
             } else {
-                int padding = boxWidth - 4 - line.length();
-                System.out.println(ansi().fg(Ansi.Color.YELLOW)
-                        .a("║ " + line + " ".repeat(padding) + " ║"));
+
+                String paddedLine = "║ " + ansi().fg(YELLOW).a(line) + " ".repeat(boxWidth - 4 - line.length())+" ║" ;
+                System.out.println(ansi().fg(YELLOW).a(paddedLine));
             }
         }
 
-        // Print bottom border
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxBottom));
 
         addPaymentToDB(selectedMovie, totalTickets, regularSeats, vipSeats, regularSeatPrice, vipSeatPrice,
@@ -249,20 +233,22 @@ public class UserSelection {
         if (paymentChoice.equals("yes")) {
             showQRCode();
 
-            String topBorder = "╔══════════════════════════════════════════════════════════╗";
-            String bottomBorder = "╚══════════════════════════════════════════════════════════╝";
+            String topBorder = "╔══════════════════════════════════════════════════════════════════════════════════════════╗";
+            String bottomBorder = "╚══════════════════════════════════════════════════════════════════════════════════════════╝";
 
             System.out.println(ansi().fg(Ansi.Color.GREEN).a(topBorder));
-            System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║              🎉Payment successful! Enjoy your movie!🍿               ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                                                          ║"));
+            System.out.println(ansi().fg(Ansi.Color.YELLOW).a("║                             🎉Payment successful! Enjoy your movie!🍿                    ║"));
+            System.out.println(ansi().fg(Ansi.Color.GREEN).a("║                                                                                          ║"));
             System.out.println(ansi().fg(Ansi.Color.GREEN).a(bottomBorder));
 
         }
-
         else {
             System.out.println(ansi().fg(Ansi.Color.RED).a("⚠️ Your booking is pending payment. Make sure to pay before your movie time!"));
             showQRCode();
         }
     }
+
 
 
     public static void showQRCode() {
