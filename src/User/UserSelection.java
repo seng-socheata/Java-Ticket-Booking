@@ -47,8 +47,6 @@ public class UserSelection {
     String boxMiddle = "                ║";
     public static void displaySummary() {
 
-
-
         String[] lines = {
                 "🎬 Movie: " + selectedMovie,
                 "🎭 Hall: " + assignedHall,
@@ -182,15 +180,14 @@ public class UserSelection {
 
             if (promoCode.equalsIgnoreCase("BOOK50")) {
                 discount = Math.max(discount, 5);
-                System.out.println("✅ Promotion code applied! 10% discount.");
+                System.out.println("✅ Promotion code applied! 5% discount.");
             } else if (promoCode.equalsIgnoreCase("MOVIE20")) {
                 discount = Math.max(discount, 10);
-                System.out.println("✅ Promotion code applied! 20% discount.");
+                System.out.println("✅ Promotion code applied! 10% discount.");
             } else {
                 System.out.println("❌ Invalid promo code.");
             }
         }
-
 
         double regularSeatPrice = 4.0;
         double vipSeatPrice = 10.0;
@@ -245,9 +242,9 @@ public class UserSelection {
         // Set the border color to green for all parts (Top, Bottom, Separator, and borders)
         System.out.println(ansi().fg(Ansi.Color.GREEN).a(boxTopBottom));
         System.out.println(ansi().fg(YELLOW).a("║                      🎟 BOOKING RECEIPT 🎟                     ║"));
-        System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator)); // Green separator
+        System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));
 
-        // Loop to print each line with the proper format
+
         for (String line : lines) {
             if (line.startsWith("───")) {
                 System.out.println(ansi().fg(Ansi.Color.GREEN).a(separator));

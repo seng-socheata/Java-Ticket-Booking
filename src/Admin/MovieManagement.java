@@ -1,5 +1,3 @@
-
-
 package Admin;
 
 import MVC.Config.Database;
@@ -14,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-
+import Admin.adminViewUsers;
 import static User.MovieList.DisplayMovie.*;
-import static User.UserSelection.selectedMovie;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -54,9 +51,11 @@ public class MovieManagement {
             System.out.println(ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
             System.out.println(ansi().fg(CYAN).a("║                      2. Manage Hall                    ║").reset());
             System.out.println(ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
+            System.out.println(ansi().fg(CYAN).a("║                      3. Show User Information          ║").reset());
+            System.out.println(ansi().fg(BLUE).a("╠════════════════════════════════════════════════════════╣").reset());
             System.out.println(ansi().fg(CYAN).a("║                      0. Exit                           ║").reset());
             System.out.println(ansi().fg(BLUE).a("╚════════════════════════════════════════════════════════╝").reset());
-
+//AdminView.adminViewUsers();
             int choice = getValidInt("📌 Enter your choice: ");
             switch (choice) {
                 case 1:
@@ -66,7 +65,9 @@ public class MovieManagement {
                     System.out.println(ansi().fg(YELLOW).a("🏛 Managing Halls...").reset());
                     hall.displaySeating();
                     SeatHall.resetSeating();
-                    addComingMovie();
+                    break;
+                case 3:
+                    adminViewUsers.adminViewUser();
                     break;
                 case 0:
                     System.out.println(ansi().fg(RED).a("🚪 Exiting Admin Panel...").reset());
@@ -308,6 +309,7 @@ public class MovieManagement {
         }
     }
 
+
     private static void updateMovie() {
         DisplayMovie.showMovies(true);
         if (!movies.isEmpty()) {
@@ -335,7 +337,7 @@ public class MovieManagement {
         }
         String currentDetailsLine = "║           🎬 Current Details          ║";
 
-
+        // Define the movie details lines
         String[] lines = {
                 "║ Title: " + selectedMovie.getTitle(),
                 "║ Genre: " + selectedMovie.getGenre(),
@@ -345,9 +347,10 @@ public class MovieManagement {
                 "║ Subtitles: " + (selectedMovie.hasSubtitle() ? "Yes" : "No")
         };
 
-
+        // Get the length of the reference "Current Details" line
         int boxWidth = currentDetailsLine.length();
 
+        // Create top and bottom borders based on this width
         String boxTopBottom = "╔" + "═".repeat(boxWidth - 2) + "╗";
         String boxBottom = "╚" + "═".repeat(boxWidth - 2) + "╝";
         String separator = "╠" + "═".repeat(boxWidth - 2) + "╣";
@@ -355,20 +358,23 @@ public class MovieManagement {
         // Print the top border (blue color)
         System.out.println(Ansi.ansi().fg(BLUE).a(boxTopBottom).reset());
 
+        // Print the current details line (cyan color for the border, black text)
         System.out.println(Ansi.ansi().fg(CYAN).a(currentDetailsLine.substring(0, 1))  // Left border
                 .reset().fg(BLACK).a(currentDetailsLine.substring(1, currentDetailsLine.length() - 1)) // Text in black
                 .fg(CYAN).a(currentDetailsLine.charAt(currentDetailsLine.length() - 1)) // Right border
                 .reset());
 
+        // Print the separator line (blue color)
         System.out.println(Ansi.ansi().fg(BLUE).a(separator).reset());
 
+        // Loop to print each line of movie details with padding
         for (String line : lines) {
-            int spacesToAdd = boxWidth - line.length() - 2;
+            int spacesToAdd = boxWidth - line.length() - 2; // Space to the right to match box width
             String paddedLine = line + " ".repeat(spacesToAdd) + " ║";
 
-
-            System.out.println(Ansi.ansi().fg(BLUE).a(paddedLine.substring(0, 1))
-                    .reset().fg(BLACK).a(paddedLine.substring(1, paddedLine.length() - 1))
+            // Print the line with black text and blue border
+            System.out.println(Ansi.ansi().fg(BLUE).a(paddedLine.substring(0, 1))  // Left border
+                    .reset().fg(BLACK).a(paddedLine.substring(1, paddedLine.length() - 1)) // Text in black
                     .fg(BLUE).a(paddedLine.charAt(paddedLine.length() - 1)) // Right border
                     .reset());
         }
@@ -424,7 +430,6 @@ public class MovieManagement {
         System.out.println(Ansi.ansi().fg(GREEN).a("\n✅ Movie updated successfully!").reset());
         DisplayMovie.viewMovies();
     }
-
 
 
     private static void deleteMovie() {
