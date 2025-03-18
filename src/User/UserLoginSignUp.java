@@ -41,7 +41,9 @@ public class UserLoginSignUp {
     private static boolean isValidEmail(String email) {
         return Pattern.matches("^[a-zA-Z0-9._%+-]+@gmail\\.com$", email);
     }
-
+    private static boolean isValidName(String name) {
+        return name.matches("^[a-zA-Z]{2,}$");
+    }
     private static boolean isValidPhoneNumber(String phone) {
         return phone.matches("\\d{8,}");
     }
@@ -53,11 +55,31 @@ public class UserLoginSignUp {
     public static void signUp() {
         Scanner input = new Scanner(System.in);
 
-        System.out.print("\uD83D\uDC64 First Name: ");
-        String firstname = input.nextLine().trim();
+        // First Name Validation
+        String firstname;
+        while (true) {
+            System.out.print("\uD83D\uDC64 First Name: ");
+            firstname = input.nextLine().trim();
 
-        System.out.print("\uD83D\uDC64 Last Name: ");
-        String lastname = input.nextLine().trim();
+            if (isValidName(firstname)) {
+                break;
+            }
+
+            System.out.println("❌ Invalid first name! It must be at least 2 letters and contain only alphabets.");
+        }
+
+        // Last Name Validation
+        String lastname;
+        while (true) {
+            System.out.print("\uD83D\uDC64 Last Name: ");
+            lastname = input.nextLine().trim();
+
+            if (isValidName(lastname)) {
+                break;
+            }
+
+            System.out.println("❌ Invalid last name! It must be at least 2 letters and contain only alphabets.");
+        }
         String username;
         while (true) {
             System.out.print("\uD83D\uDC64 Username: ");
@@ -82,10 +104,14 @@ public class UserLoginSignUp {
 
         String phoneNumber;
         while (true) {
-            System.out.print("\uD83D\uDCDE Phone Number (at least 8 digits): ");
+            System.out.print("\uD83D\uDCDE Phone Number (8-10 digits only): ");
             phoneNumber = input.nextLine().trim();
-            if (!phoneNumber.isEmpty() && isValidPhoneNumber(phoneNumber)) break;
-            System.out.println("Invalid phone number! It must be at least 8 digits.");
+
+            if (phoneNumber.length() >= 8 && phoneNumber.length() <= 10 && phoneNumber.chars().allMatch(Character::isDigit)) {
+                break;
+            }
+
+            System.out.println("❌ Invalid phone number! Must be 8-10 digits and contain only numbers.");
         }
 
         String password;

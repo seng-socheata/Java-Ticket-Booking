@@ -1,4 +1,5 @@
 
+import Design.ThreeDcolor;
 import User.SeatHall;
 import User.UserLoginSignUp;
 import User.MovieList.DisplayMovie;
@@ -12,6 +13,7 @@ public class Main {
         MovieManagement movieManagement = new MovieManagement();
         Scanner scanner = new Scanner(System.in);
         int option;
+        ThreeDcolor.displayTitle();
 
         do {
             printCenteredMenu("MAIN MENU", new String[]{
